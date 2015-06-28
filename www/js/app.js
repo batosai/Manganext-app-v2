@@ -30,7 +30,7 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy'
       });
 
       db.transaction(function(tx) {
-        var query = "CREATE TABLE IF NOT EXISTS wish (id integer primary key, data text, created_at datetime default current_timestamp);";
+        var query = "CREATE TABLE IF NOT EXISTS wish (id integer primary key, data text, publication_at datetime default null, created_at datetime default current_timestamp);";
         $cordovaSQLite.execute(db, query, []);
       });
     } // sqlite

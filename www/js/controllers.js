@@ -38,14 +38,12 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     title: 'Liste de souhait'
   });
 
-  var query = "SELECT data FROM wish WHERE 1";
+  var query = "SELECT data FROM wish WHERE 1 ORDER BY publication_at DESC";
   if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, []).then(function(res) {
-    console.log(res.rows.length);
     if(res.rows.length){
       for (var i = 0; i < res.rows.length; i++) {
         $scope.books.push( JSON.parse(res.rows.item(i)['data'] ));
       }
-      console.log($scope.books);
     }
   });
 })
@@ -122,21 +120,43 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
 .controller('BookCtrl', function($scope, $ionicAnalytics, Cache, $stateParams, $cordovaSocialSharing, $cordovaSQLite, $filter, Book) {
 
-  var books = Cache.get('books');
-  if(books) {
-    $scope.book = _.find(books, function(b){ return b.id == $stateParams.bookId; });
-  }
+  $scope.isWish = false;
+  var query = "SELECT data FROM wish WHERE id = ?";
+  if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId]).then(function(res) {
+    if(res.rows.length){
+      $scope.isWish = true;
+      $scope.book = JSON.parse(res.rows.item(0)['data']);
 
-  Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
-  $scope.$emit('bg-menu');
+      Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
+      $scope.$emit('bg-menu');
+    }
+  });
+
+  var books = Cache.get('books');
+  if(books && !$scope.book) {
+    var book = _.find(books, function(b){ return b.id == $stateParams.bookId; });
+
+    if(book) {
+      $scope.book = book;
+
+      Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
+      $scope.$emit('bg-menu');
+    }
+  }
 
   Book.get({
       id: $stateParams.bookId
   }, function(book) {
     $ionicAnalytics.track('books', {
-      title: $scope.book.title
+      title: book.title
     });
     $scope.book = book;
+
+    Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
+    $scope.$emit('bg-menu');
+
+    var query = "UPDATE wish SET data = ?, publication_at = ? WHERE id = ?";
+    if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [JSON.stringify($scope.book), $scope.book.publication_at, $stateParams.bookId]);
   });
 
   var onprogress = function(e) {
@@ -155,14 +175,6 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
       });
   };
 
-  $scope.isWish = false;
-  var query = "SELECT id FROM wish WHERE id = ?";
-  if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId]).then(function(res) {
-    if(res.rows.length){
-      $scope.isWish = true;
-    }
-  });
-
   $scope.wish = function() {
     $ionicAnalytics.track('Start', {
       button: 'Wish',
@@ -175,8 +187,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
       $scope.isWish = false;
     }
     else {
-      query = "INSERT INTO wish (id, data, created_at) VALUES (?,?,?)";
-      if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId, JSON.stringify($scope.book), moment().format()]);
+      query = "INSERT INTO wish (id, data, publication_at, created_at) VALUES (?,?,?,?)";
+      if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId, JSON.stringify($scope.book), $scope.book.publication_at, moment().format()]);
       $scope.isWish = true;
     }
   };
