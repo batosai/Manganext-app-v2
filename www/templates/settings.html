@@ -1,0 +1,26 @@
+<ion-view view-title="Settings">
+  <ion-content>
+
+    <div class="list">
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Pseudo</span>
+        <input type="text" placeholder="Pseudo">
+      </label>
+    </div>
+
+    <button class="button button-full button-assertive">
+      Save
+    </button>
+
+    <button class="button button-full button-dark" ion-track-tap="Start" ion-track-data="{ button: 'Reset data'}">
+      Reset Cache
+    </button>
+
+    <button class="button button-primary button-block " ng-click="checkForUpdates()">
+      Check for updates
+    </button>
+    <button class="button button-stable button-block button-pulse" ng-if="hasUpdate" ng-click="doUpdate()">
+      download update
+    </button>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,40 @@
+<ion-view view-title="{{title}}">
+  <ion-content overflow-scroll="true">
+    <ion-refresher
+        pulling-text="Pull to refresh..."
+        spinner="android"
+        on-refresh="onRefresh()">
+    </ion-refresher>
+
+    <ion-list>
+        <!-- <div ng-repeat="group in filtered = (books | groupByDate)"> -->
+        <div ng-repeat="group in groups">
+          <ion-item class="item-divider item-dark">
+              {{group[0].publication_at | amDateFormat:'dddd DD MMMM YYYY'}}
+          </ion-item>
+
+          <div class="row">
+            <div class="col col-card" ng-repeat="book in group">
+              <div class="card">
+                <ion-item class="item-image" ng-href="#/app/book/{{book.id}}">
+                  <!-- <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" ion-utils-cache-base64> -->
+                  <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" >
+                </ion-item>
+
+                <ion-item class="assertive" ng-href="#/app/book/{{book.id}}">
+                  {{book.title}}
+                </ion-item>
+              </div>
+            </div>
+          </div>
+        </div>
+    </ion-list>
+
+    <ion-infinite-scroll
+        on-infinite="onInfinite()"
+        distance="1%"
+        spinner="android">
+    </ion-infinite-scroll>
+
+  </ion-content>
+</ion-view>

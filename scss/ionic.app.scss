@@ -1,0 +1,188 @@
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors:
+
+$light:                           #fff !default;
+$stable:                          #f8f8f8 !default;
+$positive:                        #387ef5 !default;
+$calm:                            #11c1f3 !default;
+$balanced:                        #33cd5f !default;
+$energized:                       #ffc900 !default;
+$assertive:                       #ef473a !default;
+$royal:                           #886aea !default;
+$dark:                            #444 !default;
+*/
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+
+// Include all of Ionic
+@import "www/lib/ionic/scss/ionic";
+
+.item-divider{
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: -1px;
+    z-index: 3 !important;
+}
+
+
+// spinner
+
+.spinner svg {
+  width: 28px;
+  height: 28px;
+  stroke: $assertive;
+  fill: $assertive;
+}
+
+// Show
+
+
+.show {
+  header {
+    z-index: 0;
+    height: 200px;
+    width: 100%;
+    background-size: cover;
+    opacity: 0.35;
+    -webkit-filter: blur(9px);
+  }
+  section.header {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    height: 200px;
+    width: 100%;
+    img {
+      float: left;
+      margin: 22px;
+      border: 3px solid #fff;
+    }
+    h2 {
+      font-size: 16px;
+      color: #111;
+      margin-right: 22px;
+    }
+    p {
+      color: #444;
+    }
+  }
+}
+
+.wishlist {
+  @extend .show;
+  .item-complex .item-content,
+  .item-thumbnail-left .item-content {
+    padding: 0;
+  }
+  header {
+    height: 116px;
+  }
+  section.header {
+    img, h2 {
+      margin: 8px;
+    }
+  }
+}
+
+// List
+
+.list .card {
+    margin:0;
+}
+
+.list .card .item {
+    padding: 0;
+    border: none;
+}
+
+.list .card a {
+    padding: 10px;
+}
+
+.item .item-content.activated {
+    background-color: transparent;
+}
+
+.item-thumbnail-left > img:first-child, .item-thumbnail-left .item-image, .item-thumbnail-left .item-content > img:first-child, .item-thumbnail-left .item-content .item-image {
+    width: auto;
+    max-width: auto;
+}
+
+@media screen and (max-width: 580px) {
+    .list .col-card {
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 50%;
+        -moz-box-flex: 0;
+        -moz-flex: 0 0 50%;
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media screen and (min-width: 581px) and (max-width: 768px) {
+    .list .col-card {
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 33%;
+        -moz-box-flex: 0;
+        -moz-flex: 0 0 33%;
+        -ms-flex: 0 0 33%;
+        flex: 0 0 33%;
+        max-width: 33%;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .list .col-card {
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 25%;
+        -moz-box-flex: 0;
+        -moz-flex: 0 0 25%;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+.row {
+    -webkit-flex-wrap: wrap;
+    flex-wrap:wrap;
+}
+
+// Color menu
+
+.menu, .menu .item-complex .item-content {
+    background-color: $assertive;
+    color: #fff;
+}
+
+// search
+.menu .item-input-wrapper {
+    background-color:$assertive;
+}
+
+.menu .ion-ios-search::before, .bar-assertive .button.button-clear,
+.menu input, .menu input[placeholder], .menu ::-webkit-input-placeholder {
+    color: #fff;
+    font-weight: bold;
+}
+
+.bar .button.button-clear .icon::before {
+    font-size: 24px;
+}
+
+.bar .button.button-delete .icon::before {
+    font-size: 16px;
+}
+.bar-assertive .button.button-delete {
+    margin-right: 0px;
+}
+
+.bar.item-input-inset .item-input-wrapper input {
+    padding-left:0;
+    width: 100%;
+}

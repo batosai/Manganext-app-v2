@@ -1,0 +1,17 @@
+<ion-view view-title="Liste de souhaits" class="wishlist">
+  <ion-content>
+    <ion-list show-delete="data.showDelete">
+
+      <ion-item class="item-thumbnail-left" ng-repeat="book in books" href="#/app/book/{{book.id}}">
+        <header style="background:url({{book.media | thumbnail:'thumbnail-450x625'}});">
+        </header>
+        <section class="header">
+          <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" height="100" >
+          <h2>{{book.title}} <span ng-if="book.volume"><br /></span> <span class="assertive">{{book.volume}}</span></h2>
+          <p>{{book.publication_at | amDateFormat:'dddd DD MMMM YYYY'}}<br />{{book.price}}</p>
+        </section>
+      </ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-view>

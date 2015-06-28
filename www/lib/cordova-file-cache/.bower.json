@@ -1,0 +1,33 @@
+{
+  "name": "cordova-file-cache",
+  "main": "dist/CordovaFileCache.js",
+  "version": "0.12.0",
+  "homepage": "https://github.com/markmarijnissen/cordova-file-cache",
+  "authors": [
+    "Mark Marijnissen <markmarijnissen@gmail.com>"
+  ],
+  "description": "Awesome File Cache for Cordova Apps",
+  "keywords": [
+    "cordova",
+    "file",
+    "cache"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.12.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.12.0",
+    "commit": "c9e1023fbf89b12c4f534de54908040955f381ed"
+  },
+  "_source": "git://github.com/markmarijnissen/cordova-file-cache.git",
+  "_target": "~0.12.0",
+  "_originalSource": "cordova-file-cache",
+  "_direct": true
+}

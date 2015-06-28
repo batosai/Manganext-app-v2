@@ -1,0 +1,56 @@
+<ion-view view-title="{{book.title}}" class="show">
+  <ion-content>
+    <header style="background:url({{book.media | thumbnail:'thumbnail-450x625'}});">
+    </header>
+    <section class="header">
+      <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" height="150" >
+      <h2>{{book.title}} <span ng-if="book.volume"><br /></span> <span class="assertive">{{book.volume}}</span></h2>
+      <p>{{book.publication_at | amDateFormat:'dddd DD MMMM YYYY'}}<br />{{book.price}}</p>
+      <span class="assertive">{{book.editor}}</span>
+    </section>
+
+    <div class="list card">
+      <ion-item class="item-body">
+        <p ng-bind-html="book.content_display"></p>
+      </ion-item>
+
+      <ion-item class="tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" href="#">
+          <i class="icon ion-chatbubbles"></i>
+        </a>
+        <a class="tab-item" href="#" ng-click="wish()">
+          <i class="icon" ng-class="{'ion-ios-heart': isWish, 'ion-ios-heart-outline': !isWish}"></i>
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-android-notifications-none"></i>
+        </a>
+        <a class="tab-item" href="#" ng-click="share()" ion-track-tap="Start" ion-track-data="{ button: 'Share'}">
+          <i class="icon ion-android-share"></i>
+        </a>
+      </ion-item>
+    </div>
+
+    <div class="list card comments">
+      <ion-item class="item-divider item-dark">
+          <i class="icon ion-chatbubbles"></i> Comment
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        This is a basic Card which contains an item that has wrapping text.
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        This is a basic Card which contains an item that has wrapping text.
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        This is a basic Card which contains an item that has wrapping text.
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        This is a basic Card which contains an item that has wrapping text.
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        This is a basic Card which contains an item that has wrapping text.
+      </ion-item>
+    </div>
+    <br />
+
+  </ion-content>
+</ion-view>

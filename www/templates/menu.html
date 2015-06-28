@@ -1,0 +1,49 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-assertive">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>
+
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left">
+    <form name="form" ng-submit="search(s)" novalidate>
+      <ion-header-bar class="bar-assertive item-input-inset">
+
+          <button class="button button-clear" menu-close type="submit">
+            <i class="icon ion-ios-search placeholder-icon"></i>
+          </button>
+          <label class="item-input-wrapper">
+            <input type="search" ng-model="s" placeholder="Search" value="" required>
+          </label>
+          <button ng-disabled="form.$invalid" ng-click="reset(s);s='';" class="button button-clear button-delete" type="button">
+            <i class="icon ion-close-circled"></i>
+          </button>
+
+      </ion-header-bar>
+    </form>
+    <ion-content>
+      <ion-list>
+        <ion-item nav-clear menu-close href="#/app/booklist/now/{{s}}">
+          Dernières sorties
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/booklist/next/{{s}}">
+          A paraitres
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/wishlist">
+          Liste de souhaits
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/settings">
+          Settings
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

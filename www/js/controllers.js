@@ -1,0 +1,194 @@
+'use strict';
+
+angular.module('starter.controllers', ['starter.services', 'starter.filters'])
+
+.controller('AppCtrl', function($scope, $ionicHistory, $cordovaSQLite, $location, $state) {
+
+  $scope.search = function(s) {
+    $state.go('app.searchlist', {type: $state.params.type, search:s}, {reload: true});
+  };
+
+  $scope.reset = function(s) {
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true
+    });
+
+    $state.go('app.booklist', {type: $state.params.type}, {reload: true});
+  };
+
+  $scope.location = $location;
+})
+
+.controller('WishlistCtrl', function($scope, $ionicAnalytics, $cordovaSQLite) {
+
+  $scope.books = [];
+
+  $ionicAnalytics.track('Start', {
+    title: 'Liste de souhait'
+  });
+
+  var query = "SELECT data FROM wish WHERE 1";
+  if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, []).then(function(res) {
+    console.log(res.rows.length);
+    if(res.rows.length){
+      for (var i = 0; i < res.rows.length; i++) {
+        $scope.books.push( JSON.parse(res.rows.item(i)['data'] ));
+      }
+      console.log($scope.books);
+    }
+  });
+})
+
+.controller('BooklistCtrl', function($scope, $ionicAnalytics, Cache, $filter, $stateParams, Book) {
+
+  $scope.books = [];
+
+  var options  = {
+    order:'DESC',
+    list:'now',
+    s: '',
+    per_page:10,
+    offset:0
+  };
+  var title = $scope.title = "Dernières sorties";
+
+  if($stateParams.type == 'next') {
+    options.order = 'ASC';
+    options.list  = 'next';
+    title = $scope.title  = 'A paraitres';
+  }
+
+  $ionicAnalytics.track('Start', {
+    title: $scope.title
+  });
+
+  if(!angular.isUndefined($stateParams.search) && $stateParams.search != '') {
+    options.s = $stateParams.search;
+    $scope.title  = title + ' (' + options.s + ')';
+
+    $ionicAnalytics.track('Start', {
+      title: 'Search: ' + $scope.title
+    });
+  }
+
+  $scope.onRefresh = function() {
+    $scope.books = [];
+
+    options.per_page = $scope.books.length;
+    options.offset   = 0;
+
+    var books = Book.query(options, function(){
+      $scope.books = books.posts;
+      $scope.groups = $filter('groupByDate')($scope.books);
+      Cache.put('books', $scope.books);
+
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+
+  $scope.onInfinite = function() {
+    options.per_page = 10;
+    options.offset   = $scope.books.length;
+
+    var books = Book.query(options, function(){
+      setTimeout(function(){
+        $scope.books = _.union($scope.books, books.posts);
+        // filter direct in controller because in ng-repeat repeat n filter. Long load
+        $scope.groups = $filter('groupByDate')($scope.books);
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+
+        if(typeof FileTransfer != 'undefined') cache.download();
+        Cache.put('books', $scope.books);
+      },200);
+    });
+  };
+
+})
+
+.controller('BookCtrl', function($scope, $ionicAnalytics, Cache, $stateParams, $cordovaSocialSharing, $cordovaSQLite, Book) {
+
+  var books = Cache.get('books');
+  if(books) {
+    $scope.book = _.find(books, function(b){ return b.id == $stateParams.bookId; });
+  }
+
+  Book.get({
+      id: $stateParams.bookId
+  }, function(book) {
+    $ionicAnalytics.track('books', {
+      title: $scope.book.title
+    });
+    $scope.book = book;
+  });
+
+  var onprogress = function(e) {
+    var progress = "Progress: " + e.queueIndex + " " + e.queueSize;
+    console.log(progress);
+  };
+  if(typeof FileTransfer != 'undefined') cache.download(onprogress);
+
+  $scope.share = function () {
+    $cordovaSocialSharing
+      .share('message', 'subject', $scope.book.media[0].sizes[0].url)
+      .then(function(result) {
+        // Success!
+      }, function(err) {
+        // An error occured. Show a message to the user
+      });
+  };
+
+  $scope.isWish = false;
+  var query = "SELECT id FROM wish WHERE id = ?";
+  if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId]).then(function(res) {
+    if(res.rows.length){
+      $scope.isWish = true;
+    }
+  });
+
+  $scope.wish = function() {
+    $ionicAnalytics.track('Start', {
+      button: 'Wish',
+    });
+
+    var query;
+    if($scope.isWish){
+      query = "DELETE FROM wish WHERE id = ?";
+      if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId]);
+      $scope.isWish = false;
+    }
+    else {
+      query = "INSERT INTO wish (id, data, created_at) VALUES (?,?,?)";
+      if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId, JSON.stringify($scope.book), moment().format()]);
+      $scope.isWish = true;
+    }
+  };
+
+})
+
+.controller('SettingsCtrl', function($scope, $ionicAnalytics, $ionicDeploy) {
+  $ionicAnalytics.track('Start', {
+    title: 'Paramètres'
+  });
+  // Update app code with new release from Ionic Deploy
+  $scope.doUpdate = function() {
+    $ionicDeploy.update().then(function(res) {
+      console.log('Ionic Deploy: Update Success! ', res);
+    }, function(err) {
+      console.log('Ionic Deploy: Update error! ', err);
+    }, function(prog) {
+      console.log('Ionic Deploy: Progress... ', prog);
+    });
+  };
+
+  // Check Ionic Deploy for new code
+  $scope.checkForUpdates = function() {
+    console.log('Ionic Deploy: Checking for updates');
+    $ionicDeploy.check().then(function(hasUpdate) {
+      console.log('Ionic Deploy: Update available: ' + hasUpdate);
+      $scope.hasUpdate = hasUpdate;
+    }, function(err) {
+      console.error('Ionic Deploy: Unable to check for updates', err);
+    });
+  };
+});
