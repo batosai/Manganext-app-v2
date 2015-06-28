@@ -2,7 +2,17 @@
 
 angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
-.controller('AppCtrl', function($scope, $ionicHistory, $cordovaSQLite, $location, $state) {
+.controller('AppCtrl', function($scope, $ionicHistory, $cordovaSQLite, $location, $state, Cache) {
+
+  $scope.$on('bg-menu', function(){
+    var bg = Cache.get('menu');
+    if(bg) {
+      if(typeof cache != "undefined") {
+        bg = cache.toURL(bg);
+      }
+      $scope.bg = bg;
+    }
+  });
 
   $scope.search = function(s) {
     $state.go('app.searchlist', {type: $state.params.type, search:s}, {reload: true});
@@ -100,18 +110,25 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
         if(typeof FileTransfer != 'undefined') cache.download();
         Cache.put('books', $scope.books);
+
+        // BG menu
+        Cache.put('menu', $filter('thumbnail')($scope.books[0].media, 'thumbnail-450x625'));
+        $scope.$emit('bg-menu');
       },200);
     });
   };
 
 })
 
-.controller('BookCtrl', function($scope, $ionicAnalytics, Cache, $stateParams, $cordovaSocialSharing, $cordovaSQLite, Book) {
+.controller('BookCtrl', function($scope, $ionicAnalytics, Cache, $stateParams, $cordovaSocialSharing, $cordovaSQLite, $filter, Book) {
 
   var books = Cache.get('books');
   if(books) {
     $scope.book = _.find(books, function(b){ return b.id == $stateParams.bookId; });
   }
+
+  Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
+  $scope.$emit('bg-menu');
 
   Book.get({
       id: $stateParams.bookId

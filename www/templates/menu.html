@@ -13,9 +13,9 @@
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
-  <ion-side-menu side="left">
+  <ion-side-menu side="left" style="background-image:url({{bg}});">
     <form name="form" ng-submit="search(s)" novalidate>
-      <ion-header-bar class="bar-assertive item-input-inset">
+      <ion-header-bar class="bar-dark item-input-inset">
 
           <button class="button button-clear" menu-close type="submit">
             <i class="icon ion-ios-search placeholder-icon"></i>
@@ -29,6 +29,7 @@
 
       </ion-header-bar>
     </form>
+    <header></header>
     <ion-content>
       <ion-list>
         <ion-item nav-clear menu-close href="#/app/booklist/now/{{s}}">

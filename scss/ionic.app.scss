@@ -40,7 +40,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Show
 
-
 .show {
   header {
     z-index: 0;
@@ -71,6 +70,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     }
   }
 }
+
+// WishList
 
 .wishlist {
   @extend .show;
@@ -155,14 +156,37 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Color menu
 
-.menu, .menu .item-complex .item-content {
-    background-color: $assertive;
-    color: #fff;
+// .menu, .menu .item-complex .item-content {
+//     // background-color: $dark;
+//     background: rgba(34,34,34,0.75);
+//     -webkit-filter: blur(5px);
+//     color: #fff;
+// }
+
+.menu {
+  background-size: cover;
+  background-position: center center;
+  header {
+    background: rgba(68,68,68,0.75);
+    -webkit-filter: blur(5px);
+    width: 110%;
+    margin:-5%;
+    height: 100%;
+  }
+  .item, .item .item-content, .item .item-content.activated {
+    background-color: transparent;
+    border: none;
+    a {
+      color: #fff;
+      padding: 20px 25px 10px 40px;
+    }
+  }
 }
 
 // search
+
 .menu .item-input-wrapper {
-    background-color:$assertive;
+    background-color:$dark;
 }
 
 .menu .ion-ios-search::before, .bar-assertive .button.button-clear,
