@@ -7,6 +7,7 @@ var DEV  = 'http://localhost/manganext-wp';
 
 var cache;
 var db;
+var notificationHasPermission = false;
 
 app.constant('Config', {
     url: ENV == 'dev' ? DEV : PROD

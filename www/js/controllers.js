@@ -118,7 +118,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
 })
 
-.controller('BookCtrl', function($scope, $ionicAnalytics, Cache, $stateParams, $cordovaSocialSharing, $cordovaSQLite, $filter, Book) {
+.controller('BookCtrl', function($scope, $ionicAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, Book) {
 
   $scope.isWish = false;
   var query = "SELECT data FROM wish WHERE id = ?";
@@ -130,6 +130,11 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
       Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
       $scope.$emit('bg-menu');
     }
+  });
+
+  $scope.isNotify = false;
+  if(notificationHasPermission) cordova.plugins.notification.local.isPresent($stateParams.bookId, function (present) {
+    $scope.isNotify = present;
   });
 
   var books = Cache.get('books');
@@ -190,6 +195,22 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
       query = "INSERT INTO wish (id, data, publication_at, created_at) VALUES (?,?,?,?)";
       if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId, JSON.stringify($scope.book), $scope.book.publication_at, moment().format()]);
       $scope.isWish = true;
+    }
+  };
+
+  $scope.addNotification = function () {
+    if($scope.isNotify) {
+      $scope.isNotify = false;
+      if(notificationHasPermission) $cordovaLocalNotification.cancel($scope.book.id);
+    }
+    else {
+      $scope.isNotify = true;
+      var date = moment($scope.book.publication_at).add(10, 'hours');
+      if(notificationHasPermission) $cordovaLocalNotification.add({
+       id: $scope.book.id,
+       title: $scope.book.title + ' vient de sortir',
+       at: date.format('x')
+      });
     }
   };
 

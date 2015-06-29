@@ -22,8 +22,8 @@
         <a class="tab-item" href="#" ng-click="wish()">
           <i class="icon" ng-class="{'ion-ios-heart': isWish, 'ion-ios-heart-outline': !isWish}"></i>
         </a>
-        <a class="tab-item" href="#">
-          <i class="icon ion-android-notifications-none"></i>
+        <a class="tab-item" href="#" ng-click="addNotification()">
+          <i class="icon" ng-class="{'ion-android-notifications': isNotify, 'ion-android-notifications-none': !isNotify}"></i>
         </a>
         <a class="tab-item" href="#" ng-click="share()" ion-track-tap="Start" ion-track-data="{ button: 'Share'}">
           <i class="icon ion-android-share"></i>
