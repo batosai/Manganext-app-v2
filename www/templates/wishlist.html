@@ -1,8 +1,8 @@
-<ion-view view-title="Liste de souhaits" class="wishlist">
+<ion-view view-title="{{ 'Wish List' | translate }}" class="wishlist">
   <ion-content>
     <ion-list show-delete="data.showDelete">
 
-      <ion-item class="item-thumbnail-left" ng-repeat="book in books" href="#/app/book/{{book.id}}">
+      <ion-item class="item-thumbnail-left" ng-repeat="book in books" href="#/app/wishbook/{{book.id}}">
         <header style="background:url({{book.media | thumbnail:'thumbnail-450x625'}});">
         </header>
         <section class="header">

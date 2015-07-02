@@ -21,7 +21,7 @@
             <i class="icon ion-ios-search placeholder-icon"></i>
           </button>
           <label class="item-input-wrapper">
-            <input type="search" ng-model="s" placeholder="Search" value="" required>
+            <input type="search" ng-model="s" placeholder="{{ 'Search' | translate }}" value="" required>
           </label>
           <button ng-disabled="form.$invalid" ng-click="reset(s);s='';" class="button button-clear button-delete" type="button">
             <i class="icon ion-close-circled"></i>
@@ -33,16 +33,16 @@
     <ion-content has-bouncing="false">
       <ion-list>
         <ion-item nav-clear menu-close href="#/app/booklist/now/{{s}}">
-          Dernières sorties
+          {{ 'Latest releases' | translate }}
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/booklist/next/{{s}}">
-          A paraitres
+          {{ 'Releases' | translate }}
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/wishlist">
-          Liste de souhaits
+          {{ 'Wish list' | translate }}
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/settings">
-          Settings
+          {{ 'Settings' | translate }}
         </ion-item>
       </ion-list>
     </ion-content>

@@ -5,9 +5,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy', 'ionic.service.analytics', 'ngCordova', 'ngCachedResource', 'ngSanitize', 'angularMoment', 'starter.controllers'])
+angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy', 'ionic.service.analytics', 'ngCordova', 'ngCachedResource', 'ngSanitize', 'angularMoment', 'pascalprecht.translate', 'starter.controllers'])
 
-.run(function($ionicPlatform, $ionicAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $q) {
+.run(function($ionicPlatform, $ionicAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q) {
 
   $ionicPlatform.ready(function() {
 
@@ -55,17 +55,34 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy'
       });
     }
 
-    $location.path('/app/booklist/now/');
-	  $rootScope.$apply();
+    if(navigator.globalization) $cordovaGlobalization.getPreferredLanguage().then(
+      function(result) {
+        $translate.use(result.value.split("-")[0]);
+
+        $location.path('/app/booklist/now/');
+        $rootScope.$apply();
+      });
+
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $ionicAppProvider) {
+.config(function($stateProvider, $ionicConfigProvider, $urlRouterProvider, $ionicAppProvider, $translateProvider) {
 
   $ionicAppProvider.identify({
     app_id: '998907e6',
     api_key: '3b459640b965dd25d93d0007415d83aaaea2b4749cdc29ac'
   });
+
+  $translateProvider.useStaticFilesLoader({
+      prefix: 'languages/',
+      suffix: '.json'
+  });
+  $translateProvider.preferredLanguage('fr');
+
+  $ionicConfigProvider.backButton.text('').icon('ion-chevron-left');
+  $ionicConfigProvider.backButton.previousTitleText(false);
+  // $ionicConfigProvider.views.swipeBackEnabled(false);
+  // $ionicConfigProvider.views.maxCache(5);
 
   $stateProvider
 
@@ -82,6 +99,16 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy'
       'menuContent': {
         templateUrl: "templates/booklist.html",
         controller: 'BooklistCtrl'
+      }
+    }
+  })
+
+  .state('app.book', {
+    url: "/book/:bookId",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/book.html",
+        controller: 'BookCtrl'
       }
     }
   })
@@ -107,11 +134,11 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy'
     }
   })
 
-  .state('app.book', {
-    url: "/book/:bookId",
+  .state('app.wishbook', {
+    url: "/wishbook/:bookId",
     views: {
       'menuContent': {
-        templateUrl: "templates/book.html",
+        templateUrl: "templates/wishbook.html",
         controller: 'BookCtrl'
       }
     }

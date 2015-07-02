@@ -30,12 +30,12 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
   $scope.location = $location;
 })
 
-.controller('WishlistCtrl', function($scope, $ionicAnalytics, $cordovaSQLite) {
+.controller('WishlistCtrl', function($scope, $filter, $ionicAnalytics, $cordovaSQLite) {
 
   $scope.books = [];
 
   $ionicAnalytics.track('Start', {
-    title: 'Liste de souhait'
+    title: $filter('translate')('Wish list')
   });
 
   var query = "SELECT data FROM wish WHERE 1 ORDER BY publication_at DESC";
@@ -59,12 +59,12 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     per_page:10,
     offset:0
   };
-  var title = $scope.title = "Dernières sorties";
+  var title = $scope.title = $filter('translate')('Latest releases');
 
   if($stateParams.type == 'next') {
     options.order = 'ASC';
     options.list  = 'next';
-    title = $scope.title  = 'A paraitres';
+    title = $scope.title  = $filter('translate')('Releases');
   }
 
   $ionicAnalytics.track('Start', {
@@ -137,6 +137,10 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     $scope.isNotify = present;
   });
 
+//   cordova.plugins.notification.local.getTriggered(function (notifications) {
+//     console.log(notifications);
+// });
+
   var books = Cache.get('books');
   if(books && !$scope.book) {
     var book = _.find(books, function(b){ return b.id == $stateParams.bookId; });
@@ -198,6 +202,18 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     }
   };
 
+  // var now = new Date().getTime();
+  // var _10SecondsFromNow = new Date(now + 10 * 1000);
+  // $cordovaLocalNotification.add({
+  //  id: now,
+  //  title: 'Title here',
+  //  text: 'Text here',
+  //  badge: 1,
+  //  at: _10SecondsFromNow
+  // }).then(function (result) {
+  //  // ...
+  // });
+
   $scope.addNotification = function () {
     if($scope.isNotify) {
       $scope.isNotify = false;
@@ -208,17 +224,17 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
       var date = moment($scope.book.publication_at).add(10, 'hours');
       if(notificationHasPermission) $cordovaLocalNotification.add({
        id: $scope.book.id,
-       title: $scope.book.title + ' vient de sortir',
-       at: date.format('x')
+       title: $scope.book.title + ' ' +  $filter('translate')('released'),
+       at: date.toDate()
       });
     }
   };
 
 })
 
-.controller('SettingsCtrl', function($scope, $ionicAnalytics, $ionicDeploy) {
+.controller('SettingsCtrl', function($scope, $filter, $ionicAnalytics, $ionicDeploy) {
   $ionicAnalytics.track('Start', {
-    title: 'Paramètres'
+    title: $filter('translate')('Settings')
   });
   // Update app code with new release from Ionic Deploy
   $scope.doUpdate = function() {

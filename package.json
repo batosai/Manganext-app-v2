@@ -16,9 +16,7 @@
   },
   "cordovaPlugins": [
     "org.apache.cordova.device",
-    "org.apache.cordova.console",
     "com.ionic.keyboard",
-    "org.apache.cordova.statusbar",
     {
       "locator": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
       "id": "nl.x-services.plugins.socialsharing"
@@ -36,7 +34,10 @@
       "locator": "https://github.com/driftyco/ionic-plugins-deploy",
       "id": "com.ionic.deploy"
     },
-    "de.appplant.cordova.plugin.local-notification"
+    "cordova-plugin-console",
+    "cordova-plugin-device",
+    "de.appplant.cordova.plugin.local-notification",
+    "cordova-plugin-globalization"
   ],
   "cordovaPlatforms": [
     "ios"
