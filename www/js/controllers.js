@@ -30,7 +30,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
   $scope.location = $location;
 })
 
-.controller('WishlistCtrl', function($scope, $filter, $ionicAnalytics, $cordovaSQLite) {
+.controller('WishlistCtrl', function($scope, $filter, $ionicAnalytics, $cordovaSQLite, $splashscreen) {
+
+  $splashscreen.show();
 
   $scope.books = [];
 
@@ -45,10 +47,14 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
         $scope.books.push( JSON.parse(res.rows.item(i)['data'] ));
       }
     }
+    $splashscreen.hide();
   });
 })
 
-.controller('BooklistCtrl', function($scope, $ionicAnalytics, Cache, $filter, $stateParams, Book) {
+.controller('BooklistCtrl', function($scope, $ionicAnalytics, Cache, $filter, $stateParams, $cordovaSplashscreen, $splashscreen, Book) {
+
+  $splashscreen.show();
+  if(navigator.splashscreen) $cordovaSplashscreen.hide();
 
   $scope.books = [];
 
@@ -112,13 +118,17 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
         // BG menu
         Cache.put('menu', $filter('thumbnail')($scope.books[0].media, 'thumbnail-450x625'));
         $scope.$emit('bg-menu');
+
+        $splashscreen.hide();
       },200);
     });
   };
 
 })
 
-.controller('BookCtrl', function($scope, $ionicAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, Book) {
+.controller('BookCtrl', function($scope, $ionicAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, $splashscreen, Book) {
+
+  $splashscreen.show();
 
   $scope.isWish = false;
   var query = "SELECT data FROM wish WHERE id = ?";
@@ -129,6 +139,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
       Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
       $scope.$emit('bg-menu');
+      $splashscreen.hide();
     }
   });
 
@@ -150,6 +161,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
       Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
       $scope.$emit('bg-menu');
+      $splashscreen.hide();
     }
   }
 
@@ -166,6 +178,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
     var query = "UPDATE wish SET data = ?, publication_at = ? WHERE id = ?";
     if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [JSON.stringify($scope.book), $scope.book.publication_at, $stateParams.bookId]);
+
+    $splashscreen.hide();
   });
 
   var onprogress = function(e) {
@@ -232,10 +246,15 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
 })
 
-.controller('SettingsCtrl', function($scope, $filter, $ionicAnalytics, $ionicDeploy) {
+.controller('SettingsCtrl', function($scope, $filter, $ionicAnalytics, $ionicDeploy, $cordovaInAppBrowser) {
   $ionicAnalytics.track('Start', {
     title: $filter('translate')('Settings')
   });
+
+  $scope.openForm = function() {
+    $cordovaInAppBrowser.open('http://manganext-app.com', '_system')
+  }
+
   // Update app code with new release from Ionic Deploy
   $scope.doUpdate = function() {
     $ionicDeploy.update().then(function(res) {

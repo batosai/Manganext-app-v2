@@ -37,7 +37,9 @@
     "cordova-plugin-console",
     "cordova-plugin-device",
     "de.appplant.cordova.plugin.local-notification",
-    "cordova-plugin-globalization"
+    "cordova-plugin-globalization",
+    "cordova-plugin-splashscreen",
+    "cordova-plugin-inappbrowser"
   ],
   "cordovaPlatforms": [
     "ios"

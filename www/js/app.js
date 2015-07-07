@@ -5,7 +5,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy', 'ionic.service.analytics', 'ngCordova', 'ngCachedResource', 'ngSanitize', 'angularMoment', 'pascalprecht.translate', 'starter.controllers'])
+angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy', 'ionic.service.analytics', 'ngCordova', 'ngCachedResource', 'ngSanitize', 'angularMoment', 'pascalprecht.translate', 'starter.controllers', 'starter.splashscreen'])
 
 .run(function($ionicPlatform, $ionicAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q) {
 
@@ -55,13 +55,18 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy'
       });
     }
 
-    if(navigator.globalization) $cordovaGlobalization.getPreferredLanguage().then(
-      function(result) {
+    if(navigator.globalization)
+    {
+      $cordovaGlobalization.getPreferredLanguage().then(function(result) {
         $translate.use(result.value.split("-")[0]);
 
         $location.path('/app/booklist/now/');
         $rootScope.$apply();
       });
+    }else {
+      $location.path('/app/booklist/now/');
+      $rootScope.$apply();
+    }
 
   });
 })
