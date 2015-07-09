@@ -1,17 +1,26 @@
 'use strict';
-// Ionic Starter App
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy', 'ionic.service.analytics', 'ngCordova', 'ngCachedResource', 'ngSanitize', 'angularMoment', 'pascalprecht.translate', 'starter.controllers', 'starter.splashscreen'])
+// 'ionic.service.deploy',
+angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.analytics', 'ngCordova', 'ngCachedResource', 'ngSanitize', 'angularMoment', 'pascalprecht.translate', 'starter.controllers', 'starter.splashscreen'])
 
-.run(function($ionicPlatform, $ionicAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q) {
+.run(function($ionicPlatform, $ionicAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config) {
 
   $ionicPlatform.ready(function() {
 
     $ionicAnalytics.register();
+
+    if(typeof AdMob != 'undefined') {
+      var defaultOptions = {
+        adId: Config.adId,
+        position: AdMob.AD_POSITION.BOTTOM_CENTER,
+        bgColor: '#ffffff',
+        // isTesting: true,
+        autoShow: true
+      };
+
+      AdMob.prepareInterstitial(defaultOptions);
+      AdMob.createBanner(defaultOptions);
+    }
 
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -71,18 +80,18 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.deploy'
   });
 })
 
-.config(function($stateProvider, $ionicConfigProvider, $urlRouterProvider, $ionicAppProvider, $translateProvider) {
+.config(function($stateProvider, $ionicConfigProvider, $urlRouterProvider, $ionicAppProvider, $translateProvider, Config) {
 
   $ionicAppProvider.identify({
-    app_id: '998907e6',
-    api_key: '3b459640b965dd25d93d0007415d83aaaea2b4749cdc29ac'
+    app_id: Config.appId,
+    api_key: Config.apiKey
   });
 
   $translateProvider.useStaticFilesLoader({
       prefix: 'languages/',
       suffix: '.json'
   });
-  $translateProvider.preferredLanguage('fr');
+  $translateProvider.preferredLanguage(Config.defaultLanguage);
 
   $ionicConfigProvider.backButton.text('').icon('ion-chevron-left');
   $ionicConfigProvider.backButton.previousTitleText(false);

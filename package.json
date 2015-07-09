@@ -21,10 +21,6 @@
       "locator": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
       "id": "nl.x-services.plugins.socialsharing"
     },
-    {
-      "locator": "https://github.com/floatinghotpot/cordova-plugin-admob.git",
-      "id": "com.rjfun.cordova.plugin.admob"
-    },
     "cordova-plugin-file-transfer",
     {
       "locator": "https://github.com/litehelpers/Cordova-sqlite-storage.git",
@@ -39,7 +35,7 @@
     "de.appplant.cordova.plugin.local-notification",
     "cordova-plugin-globalization",
     "cordova-plugin-splashscreen",
-    "cordova-plugin-inappbrowser"
+    "cordova-plugin-admobpro"
   ],
   "cordovaPlatforms": [
     "ios"

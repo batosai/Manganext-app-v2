@@ -3,32 +3,34 @@
 
     <div class="list">
       <label class="item item-input item-floating-label">
-        <span class="input-label">Pseudo</span>
-        <input type="text" placeholder="Pseudo">
+        <span class="input-label">Pseudo *</span>
+        <input type="text" placeholder="Pseudo *">
       </label>
-      <blockquote style="margin:0;padding:10px 15px;border-left:none;">
-      {{ 'The pseudo is required to post a comment' | translate }}</blockquote>
     </div>
-
     <button class="button button-full button-assertive">
       {{ 'Save' | translate }}
     </button>
+    <blockquote style="margin:0;padding:0px 15px;border-left:none;">
+    * {{ 'The pseudo is required to post a comment' | translate }}</blockquote>
 
-    <button ng-click="openForm()" style="margin-top:100px;" class="button button-energized button-block ">
-      Signaler un problème {{ 'Report a problem' | translate }}
+    <button ng-click="openForm()" style="margin-top:50px;" class="button button-energized button-block ">
+      {{ 'Report a problem' | translate }} *
     </button>
+    <blockquote style="margin:0;padding:0px 15px;border-left:none;">
+    * {{ 'Visit the contact form to indicate a malfunction of the application.' | translate }}</blockquote>
 
-    <button class="button button-full button-dark" ion-track-tap="Start" ion-track-data="{ button: 'Reset data'}">
+    <button class="button button-full button-dark" style="margin-top:50px;" ion-track-tap="Start" ion-track-data="{ button: 'Reset data'}">
       {{ 'Reset Cache' | translate }}
     </button>
 
 
-
+<!--
     <button class="button button-primary button-block" ng-click="checkForUpdates()">
       Check for updates
     </button>
     <button class="button button-stable button-block button-pulse" ng-if="hasUpdate" ng-click="doUpdate()">
       download update
     </button>
+-->
   </ion-content>
 </ion-view>

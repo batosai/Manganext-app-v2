@@ -119,7 +119,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
         Cache.put('menu', $filter('thumbnail')($scope.books[0].media, 'thumbnail-450x625'));
         $scope.$emit('bg-menu');
 
-        $splashscreen.hide();
+        setTimeout(function(){
+          $splashscreen.hide();
+        },200);
       },200);
     });
   };
@@ -246,7 +248,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
 })
 
-.controller('SettingsCtrl', function($scope, $filter, $ionicAnalytics, $ionicDeploy, $cordovaInAppBrowser) {
+.controller('SettingsCtrl', function($scope, $filter, $ionicAnalytics, $cordovaInAppBrowser) {
   $ionicAnalytics.track('Start', {
     title: $filter('translate')('Settings')
   });
@@ -255,25 +257,25 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     $cordovaInAppBrowser.open('http://manganext-app.com', '_system')
   }
 
-  // Update app code with new release from Ionic Deploy
-  $scope.doUpdate = function() {
-    $ionicDeploy.update().then(function(res) {
-      console.log('Ionic Deploy: Update Success! ', res);
-    }, function(err) {
-      console.log('Ionic Deploy: Update error! ', err);
-    }, function(prog) {
-      console.log('Ionic Deploy: Progress... ', prog);
-    });
-  };
-
-  // Check Ionic Deploy for new code
-  $scope.checkForUpdates = function() {
-    console.log('Ionic Deploy: Checking for updates');
-    $ionicDeploy.check().then(function(hasUpdate) {
-      console.log('Ionic Deploy: Update available: ' + hasUpdate);
-      $scope.hasUpdate = hasUpdate;
-    }, function(err) {
-      console.error('Ionic Deploy: Unable to check for updates', err);
-    });
-  };
+  // // Update app code with new release from Ionic Deploy
+  // $scope.doUpdate = function() {
+  //   $ionicDeploy.update().then(function(res) {
+  //     console.log('Ionic Deploy: Update Success! ', res);
+  //   }, function(err) {
+  //     console.log('Ionic Deploy: Update error! ', err);
+  //   }, function(prog) {
+  //     console.log('Ionic Deploy: Progress... ', prog);
+  //   });
+  // };
+  //
+  // // Check Ionic Deploy for new code
+  // $scope.checkForUpdates = function() {
+  //   console.log('Ionic Deploy: Checking for updates');
+  //   $ionicDeploy.check().then(function(hasUpdate) {
+  //     console.log('Ionic Deploy: Update available: ' + hasUpdate);
+  //     $scope.hasUpdate = hasUpdate;
+  //   }, function(err) {
+  //     console.error('Ionic Deploy: Unable to check for updates', err);
+  //   });
+  // };
 });
