@@ -3,11 +3,12 @@
 // 'ionic.service.deploy',
 angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.analytics', 'ngCordova', 'ngCachedResource', 'ngSanitize', 'angularMoment', 'pascalprecht.translate', 'starter.controllers', 'starter.splashscreen'])
 
-.run(function($ionicPlatform, $ionicAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config) {
+.run(function($ionicPlatform, $ionicAnalytics, $cordovaGoogleAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config) {
 
   $ionicPlatform.ready(function() {
 
     $ionicAnalytics.register();
+    if(window.analytics) $cordovaGoogleAnalytics.startTrackerWithId(Config.analyticsId);
 
     if(typeof AdMob != 'undefined') {
       var defaultOptions = {

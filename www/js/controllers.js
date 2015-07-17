@@ -30,15 +30,17 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
   $scope.location = $location;
 })
 
-.controller('WishlistCtrl', function($scope, $filter, $ionicAnalytics, $cordovaSQLite, $splashscreen) {
+.controller('WishlistCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $cordovaSQLite, $splashscreen) {
 
   $splashscreen.show();
 
   $scope.books = [];
 
+  var title = 'Wish list';
   $ionicAnalytics.track('Start', {
-    title: $filter('translate')('Wish list')
+    title: title
   });
+  if(window.analytics) $cordovaGoogleAnalytics.trackView(title);
 
   var query = "SELECT data FROM wish WHERE 1 ORDER BY publication_at DESC";
   if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, []).then(function(res) {
@@ -51,7 +53,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
   });
 })
 
-.controller('BooklistCtrl', function($scope, $ionicAnalytics, Cache, $filter, $stateParams, $cordovaSplashscreen, $splashscreen, Book) {
+.controller('BooklistCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, Cache, $filter, $stateParams, $cordovaSplashscreen, $splashscreen, Book) {
 
   $splashscreen.show();
   if(navigator.splashscreen) $cordovaSplashscreen.hide();
@@ -76,6 +78,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
   $ionicAnalytics.track('Start', {
     title: $scope.title
   });
+  if(window.analytics) $cordovaGoogleAnalytics.trackView($scope.title);
 
   if(!angular.isUndefined($stateParams.search) && $stateParams.search != '') {
     options.s = $stateParams.search;
@@ -84,6 +87,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     $ionicAnalytics.track('Start', {
       title: 'Search: ' + $scope.title
     });
+    if(window.analytics) $cordovaGoogleAnalytics.trackView('Search: ' + $scope.title);
   }
 
   $scope.onRefresh = function() {
@@ -108,6 +112,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     var books = Book.query(options, function(){
       setTimeout(function(){
         $scope.books = _.union($scope.books, books.posts);
+        // angular.merge(dst, src); ????
         // filter direct in controller because in ng-repeat repeat n filter. Long load
         $scope.groups = $filter('groupByDate')($scope.books);
         $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -128,7 +133,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
 })
 
-.controller('BookCtrl', function($scope, $ionicAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, $splashscreen, Book) {
+.controller('BookCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, $splashscreen, Book) {
 
   $splashscreen.show();
 
@@ -173,6 +178,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     $ionicAnalytics.track('books', {
       title: book.title
     });
+    if(window.analytics) $cordovaGoogleAnalytics.trackView(book.title);
+
     $scope.book = book;
 
     Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
@@ -191,6 +198,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
   if(typeof FileTransfer != 'undefined') cache.download(onprogress);
 
   $scope.share = function () {
+    if(window.analytics) $cordovaGoogleAnalytics.trackEvent('button', 'click', 'Share', $scope.book.title);
     $cordovaSocialSharing
       .share('message', 'subject', $scope.book.media[0].sizes[0].url)
       .then(function(result) {
@@ -204,6 +212,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     $ionicAnalytics.track('Start', {
       button: 'Wish',
     });
+    if(window.analytics) $cordovaGoogleAnalytics.trackEvent('button', 'click', 'Wish', book.title);
 
     var query;
     if($scope.isWish){
@@ -231,6 +240,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
   // });
 
   $scope.addNotification = function () {
+    if(window.analytics) $cordovaGoogleAnalytics.trackEvent('button', 'click', 'Notification', $scope.book.title);
     if($scope.isNotify) {
       $scope.isNotify = false;
       if(notificationHasPermission) $cordovaLocalNotification.cancel($scope.book.id);
@@ -248,13 +258,26 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
 })
 
-.controller('SettingsCtrl', function($scope, $filter, $ionicAnalytics, $cordovaInAppBrowser) {
+.controller('SettingsCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $cordovaInAppBrowser) {
+  var title = 'Settings';
   $ionicAnalytics.track('Start', {
-    title: $filter('translate')('Settings')
+    title: title
   });
+  if(window.analytics) $cordovaGoogleAnalytics.trackView(title);
 
   $scope.openForm = function() {
-    $cordovaInAppBrowser.open('http://manganext-app.com', '_system')
+    if(window.analytics) $cordovaGoogleAnalytics.trackEvent('button', 'click', 'Contact');
+    $cordovaInAppBrowser.open('http://manganext-app.com', '_system');
+  }
+
+  $scope.clearCache = function() {
+    if(window.analytics) $cordovaGoogleAnalytics.trackEvent('button', 'click', 'Clear cache');
+
+    if(typeof cache != "undefined") {
+      cache.clear();
+    }
+
+    localStorage.clear();
   }
 
   // // Update app code with new release from Ionic Deploy

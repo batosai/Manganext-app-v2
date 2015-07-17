@@ -14,5 +14,6 @@ app.constant('Config', {
     adId: 'ca-app-pub-7709867768399573/6607258151',
     appId: '998907e6',
     apiKey: '3b459640b965dd25d93d0007415d83aaaea2b4749cdc29ac',
-    defaultLanguage: 'fr'
+    defaultLanguage: 'fr',
+    analyticsId:'UA-2577921-11'
 });
