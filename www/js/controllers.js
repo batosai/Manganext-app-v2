@@ -68,17 +68,19 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     offset:0
   };
   var title = $scope.title = $filter('translate')('Latest releases');
+  var analyticsTitle = 'Latest releases';
 
   if($stateParams.type == 'next') {
     options.order = 'ASC';
     options.list  = 'next';
     title = $scope.title  = $filter('translate')('Releases');
+    analyticsTitle = 'Releases';
   }
 
   $ionicAnalytics.track('Start', {
     title: $scope.title
   });
-  if(window.analytics) $cordovaGoogleAnalytics.trackView($scope.title);
+  if(window.analytics) $cordovaGoogleAnalytics.trackView(analyticsTitle);
 
   if(!angular.isUndefined($stateParams.search) && $stateParams.search != '') {
     options.s = $stateParams.search;
@@ -155,10 +157,6 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     $scope.isNotify = present;
   });
 
-//   cordova.plugins.notification.local.getTriggered(function (notifications) {
-//     console.log(notifications);
-// });
-
   var books = Cache.get('books');
   if(books && !$scope.book) {
     var book = _.find(books, function(b){ return b.id == $stateParams.bookId; });
@@ -198,9 +196,13 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
   if(typeof FileTransfer != 'undefined') cache.download(onprogress);
 
   $scope.share = function () {
+    var subject = $filter('translate')("{0} fate {1}.");
+    subject = subject.format($scope.book.title, $filter('amDateFormat')($scope.book.publication_at, 'dddd DD MMMM YYYY'));
+    var message = subject + ' ' + $filter('translate')("Check out all the manga outputs with the MangaNext app.");
+
     if(window.analytics) $cordovaGoogleAnalytics.trackEvent('button', 'click', 'Share', $scope.book.title);
     $cordovaSocialSharing
-      .share('message', 'subject', $scope.book.media[0].sizes[0].url)
+      .share(message, subject, $scope.book.media[0].sizes[0].url)
       .then(function(result) {
         // Success!
       }, function(err) {

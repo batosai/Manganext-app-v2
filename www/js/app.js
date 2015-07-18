@@ -1,9 +1,18 @@
 'use strict';
 
+String.prototype.format = function() {
+    var formatted = this;
+    for (var i = 0; i < arguments.length; i++) {
+        var regexp = new RegExp('\\{'+i+'\\}', 'gi');
+        formatted = formatted.replace(regexp, arguments[i]);
+    }
+    return formatted;
+};
+
 // 'ionic.service.deploy',
 angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.analytics', 'ngCordova', 'ngCachedResource', 'ngSanitize', 'angularMoment', 'pascalprecht.translate', 'starter.controllers', 'starter.splashscreen'])
 
-.run(function($ionicPlatform, $ionicAnalytics, $cordovaGoogleAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config) {
+.run(function($ionicPlatform, $ionicAnalytics, $cordovaGoogleAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config, amMoment) {
 
   $ionicPlatform.ready(function() {
 
@@ -69,6 +78,8 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.analyti
     {
       $cordovaGlobalization.getPreferredLanguage().then(function(result) {
         $translate.use(result.value.split("-")[0]);
+
+        amMoment.changeLocale(result.value.split("-")[0]);
 
         $location.path('/app/booklist/now/');
         $rootScope.$apply();
