@@ -1,0 +1,23 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-dark">
+    <h1 class="title">{{ 'Comment' | translate }}</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeComment()">{{ 'Close' | translate }}</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form name="form" ng-submit="addComment()" novalidate>
+      <div class="list">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">{{ 'Pseudo' | translate }} *</span>
+          <input type="text" placeholder="{{ 'Pseudo' | translate }} *" minlength="3" ng-model="commentData.username" required />
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">{{ 'Comment' | translate }} *</span>
+          <textarea placeholder="{{ 'Comment' | translate }} *" rows="12" minlength="2" ng-model="commentData.comment" required></textarea>
+        </label>
+        <button ng-disabled="form.$invalid" class="button button-block button-positive button-full button-assertive" type="submit">{{ 'Add' | translate }}</button>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

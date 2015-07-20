@@ -135,7 +135,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
 })
 
-.controller('BookCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, $splashscreen, Book) {
+.controller('BookCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, $splashscreen, $ionicModal, Book) {
 
   $splashscreen.show();
 
@@ -258,10 +258,46 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     }
   };
 
+  // MODAL comment
+  $scope.commentData = [];
+
+  if($ionicModal) $ionicModal.fromTemplateUrl('templates/comment.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+
+    var query = "SELECT value FROM options WHERE key=?";
+    if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, ['username']).then(function(res) {
+      if(res.rows.length){
+        $scope.commentData.username = res.rows.item(0)['value'];
+      }
+    });
+  });
+
+  $scope.closeComment = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.comment = function() {
+    $scope.modal.show();
+  };
+
+  $scope.addComment = function() {
+    console.log('Doing login', $scope.commentData);
+
+    if(window.sqlitePlugin) {
+      $cordovaSQLite.execute(db, "DELETE FROM options WHERE key=?", ['username']);
+      $cordovaSQLite.execute(db, "INSERT INTO options (key, value) VALUES (?,?)", ['username', $scope.commentData.username]);
+    }
+
+    $scope.closeComment();
+  };
 })
 
-.controller('SettingsCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $cordovaInAppBrowser) {
+.controller('SettingsCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $cordovaInAppBrowser, $cordovaSQLite) {
   var title = 'Settings';
+  $scope.user = [];
+
   $ionicAnalytics.track('Start', {
     title: title
   });
@@ -281,6 +317,19 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
     localStorage.clear();
   }
+
+  if(window.sqlitePlugin) $cordovaSQLite.execute(db, "SELECT value FROM options WHERE key=?", ['username']).then(function(res) {
+    if(res.rows.length){
+      $scope.user.name = res.rows.item(0)['value'];
+    }
+  });
+
+  $scope.addUsername = function() {
+    if(window.sqlitePlugin) {
+      $cordovaSQLite.execute(db, "DELETE FROM options WHERE key=?", ['username']);
+      $cordovaSQLite.execute(db, "INSERT INTO options (key, value) VALUES (?,?)", ['username', $scope.user.name]);
+    }
+  };
 
   // // Update app code with new release from Ionic Deploy
   // $scope.doUpdate = function() {
