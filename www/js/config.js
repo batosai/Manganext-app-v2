@@ -15,5 +15,6 @@ app.constant('Config', {
     appId: '998907e6',
     apiKey: '3b459640b965dd25d93d0007415d83aaaea2b4749cdc29ac',
     defaultLanguage: 'fr',
-    analyticsId:'UA-2577921-11'
+    analyticsId:'UA-2577921-11',
+    token: 'ea5af636cd2c0c07242ee43c07cbefb3'
 });

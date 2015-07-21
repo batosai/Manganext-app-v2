@@ -135,7 +135,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
 })
 
-.controller('BookCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, $splashscreen, $ionicModal, Book) {
+.controller('BookCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, $splashscreen, $ionicModal, Book, Comment) {
 
   $splashscreen.show();
 
@@ -258,6 +258,14 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     }
   };
 
+  // List comments
+  $scope.comments = [];
+  Comment.get({
+      id: $stateParams.bookId
+  }, function(comment) {
+    $scope.comments = comment.comments;
+  });
+
   // MODAL comment
   $scope.commentData = [];
 
@@ -289,6 +297,11 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
       $cordovaSQLite.execute(db, "DELETE FROM options WHERE key=?", ['username']);
       $cordovaSQLite.execute(db, "INSERT INTO options (key, value) VALUES (?,?)", ['username', $scope.commentData.username]);
     }
+
+    $scope.comments.unshift({
+      content:$scope.commentData.comment,
+      author:$scope.commentData.username
+    });
 
     $scope.closeComment();
   };

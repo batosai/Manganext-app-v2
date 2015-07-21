@@ -12,7 +12,7 @@
     </section>
 
     <div class="list card">
-      <ion-item class="item-body">
+      <ion-item class="item-body" ng-if="book.content != ''">
         <p ng-bind-html="book.content_display"></p>
       </ion-item>
 
@@ -32,24 +32,13 @@
       </ion-item>
     </div>
 
-    <div class="list card comments">
+    <div class="list card comments" ng-if="comments.length">
       <ion-item class="item-divider item-dark">
-          <i class="icon ion-chatbubbles"></i> {{ 'Comments' | translate }}
+          <i class="icon ion-chatbubbles"></i> {{ 'Comments' | translate }} ({{ comments.length }})
       </ion-item>
-      <ion-item class="item-text-wrap">
-        This is a basic Card which contains an item that has wrapping text.
-      </ion-item>
-      <ion-item class="item-text-wrap">
-        This is a basic Card which contains an item that has wrapping text.
-      </ion-item>
-      <ion-item class="item-text-wrap">
-        This is a basic Card which contains an item that has wrapping text.
-      </ion-item>
-      <ion-item class="item-text-wrap">
-        This is a basic Card which contains an item that has wrapping text.
-      </ion-item>
-      <ion-item class="item-text-wrap">
-        This is a basic Card which contains an item that has wrapping text.
+      <ion-item class="item-text-wrap" ng-repeat="comment in comments">
+        <b>{{ comment.author }} :</b><br />
+        {{ comment.content }}
       </ion-item>
     </div>
     <br />
