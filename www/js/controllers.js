@@ -135,7 +135,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
 })
 
-.controller('BookCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, $splashscreen, $ionicModal, Book, Comment) {
+.controller('BookCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, $splashscreen, $ionicModal, Book, Comments, Comment) {
 
   $splashscreen.show();
 
@@ -260,14 +260,15 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
   // List comments
   $scope.comments = [];
-  Comment.get({
+  Comments.get({
       id: $stateParams.bookId
   }, function(comment) {
     $scope.comments = comment.comments;
   });
 
   // MODAL comment
-  $scope.commentData = [];
+  $scope.commentData = new Comment();
+  $scope.commentData.post_id = book.id;
 
   if($ionicModal) $ionicModal.fromTemplateUrl('templates/comment.html', {
     scope: $scope
@@ -275,9 +276,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     $scope.modal = modal;
 
     var query = "SELECT value FROM options WHERE key=?";
-    if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, ['username']).then(function(res) {
+    if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, ['author']).then(function(res) {
       if(res.rows.length){
-        $scope.commentData.username = res.rows.item(0)['value'];
+        $scope.commentData.author = res.rows.item(0)['value'];
       }
     });
   });
@@ -291,16 +292,21 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
   };
 
   $scope.addComment = function() {
-    console.log('Doing login', $scope.commentData);
 
     if(window.sqlitePlugin) {
-      $cordovaSQLite.execute(db, "DELETE FROM options WHERE key=?", ['username']);
-      $cordovaSQLite.execute(db, "INSERT INTO options (key, value) VALUES (?,?)", ['username', $scope.commentData.username]);
+      $cordovaSQLite.execute(db, "DELETE FROM options WHERE key=?", ['author']);
+      $cordovaSQLite.execute(db, "INSERT INTO options (key, value) VALUES (?,?)", ['author', $scope.commentData.author]);
     }
 
+    $scope.commentData.$save(function() {
+      $scope.commentData = new Comment();
+      $scope.commentData.post_id = book.id;
+      $scope.closeComment();
+    });
+
     $scope.comments.unshift({
-      content:$scope.commentData.comment,
-      author:$scope.commentData.username
+      content:$scope.commentData.content,
+      author:$scope.commentData.author
     });
 
     $scope.closeComment();
@@ -331,16 +337,16 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
     localStorage.clear();
   }
 
-  if(window.sqlitePlugin) $cordovaSQLite.execute(db, "SELECT value FROM options WHERE key=?", ['username']).then(function(res) {
+  if(window.sqlitePlugin) $cordovaSQLite.execute(db, "SELECT value FROM options WHERE key=?", ['author']).then(function(res) {
     if(res.rows.length){
       $scope.user.name = res.rows.item(0)['value'];
     }
   });
 
-  $scope.addUsername = function() {
+  $scope.addAuthor = function() {
     if(window.sqlitePlugin) {
-      $cordovaSQLite.execute(db, "DELETE FROM options WHERE key=?", ['username']);
-      $cordovaSQLite.execute(db, "INSERT INTO options (key, value) VALUES (?,?)", ['username', $scope.user.name]);
+      $cordovaSQLite.execute(db, "DELETE FROM options WHERE key=?", ['author']);
+      $cordovaSQLite.execute(db, "INSERT INTO options (key, value) VALUES (?,?)", ['author', $scope.user.name]);
     }
   };
 

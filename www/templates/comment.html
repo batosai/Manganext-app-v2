@@ -10,11 +10,11 @@
       <div class="list">
         <label class="item item-input item-floating-label">
           <span class="input-label">{{ 'Pseudo' | translate }} *</span>
-          <input type="text" placeholder="{{ 'Pseudo' | translate }} *" minlength="3" ng-model="commentData.username" required />
+          <input type="text" placeholder="{{ 'Pseudo' | translate }} *" minlength="3" ng-model="commentData.author" required />
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">{{ 'Comment' | translate }} *</span>
-          <textarea placeholder="{{ 'Comment' | translate }} *" rows="12" minlength="2" ng-model="commentData.comment" required></textarea>
+          <textarea placeholder="{{ 'Comment' | translate }} *" rows="12" minlength="2" ng-model="commentData.content" required></textarea>
         </label>
         <button ng-disabled="form.$invalid" class="button button-block button-positive button-full button-assertive" type="submit">{{ 'Add' | translate }}</button>
       </div>
