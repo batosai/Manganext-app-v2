@@ -29,6 +29,7 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.analyti
       };
 
       AdMob.prepareInterstitial(defaultOptions);
+      defaultOptions.adId = Config.adIdBottom;
       AdMob.createBanner(defaultOptions);
     }
 
