@@ -231,30 +231,44 @@ angular.module('starter.controllers', ['starter.services', 'starter.filters'])
 
   // var now = new Date().getTime();
   // var _10SecondsFromNow = new Date(now + 10 * 1000);
-  // $cordovaLocalNotification.add({
-  //  id: now,
-  //  title: 'Title here',
-  //  text: 'Text here',
-  //  badge: 1,
-  //  at: _10SecondsFromNow
-  // }).then(function (result) {
-  //  // ...
-  // });
+ //  $cordovaLocalNotification.schedule({
+ //   id: 10,
+ //   title: 'Title here',
+ //   text: 'Text here',
+ //   badge: 1,
+ //   at: _10SecondsFromNow
+ // }).then(function (result) {
+ //   // ...
+ //  });
+
 
   $scope.addNotification = function () {
     if(window.analytics) $cordovaGoogleAnalytics.trackEvent('button', 'click', 'Notification', $scope.book.title);
     if($scope.isNotify) {
       $scope.isNotify = false;
-      if(notificationHasPermission) $cordovaLocalNotification.cancel($scope.book.id);
+      if(notificationHasPermission) {
+        $cordovaLocalNotification.cancel($scope.book.id);
+        $cordovaSQLite.execute(db, "DELETE FROM notifications WHERE id=?", [$scope.book.id]);
+      }
     }
     else {
       $scope.isNotify = true;
       var date = moment($scope.book.publication_at).add(10, 'hours');
-      if(notificationHasPermission) $cordovaLocalNotification.add({
-       id: $scope.book.id,
-       title: $scope.book.title + ' ' +  $filter('translate')('released'),
-       at: date.toDate()
-      });
+      if(notificationHasPermission){
+        if(window.sqlitePlugin) {
+          $cordovaSQLite.execute(db, "INSERT INTO notifications (id, title, notify_at) VALUES (?,?,?)", [$scope.book.id, $scope.book.title + ' ' +  $filter('translate')('released'), date.format()]);
+
+          $cordovaSQLite.execute(db, "SELECT * FROM notifications WHERE notify_at=?", [date.format()]).then(function(res) {
+            $cordovaLocalNotification.schedule({
+             id: $scope.book.id,
+             title: $scope.book.title + ' ' +  $filter('translate')('released'),
+             at: date.toDate(),
+            //  at: _10SecondsFromNow,
+             badge: res.rows.length
+            });
+          });
+        }
+      }
     }
   };
 

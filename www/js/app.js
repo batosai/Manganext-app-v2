@@ -14,6 +14,12 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.analyti
 
 .run(function($ionicPlatform, $ionicAnalytics, $cordovaGoogleAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config, amMoment) {
 
+  $ionicPlatform.on('resume', function(){
+    if(window.cordova && window.cordova.plugins.notification) {
+      cordova.plugins.notification.local.cancelAll(); // clear badge notification
+    }
+  });
+
   $ionicPlatform.ready(function() {
 
     $ionicAnalytics.register();
@@ -45,7 +51,7 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.analyti
       db = window.sqlitePlugin.openDatabase({
         name: "NoCloud/manganext.db",
         // location: 2,
-        androidDatabaseImplementation: 2,
+        // androidDatabaseImplementation: 2,
         createFromLocation: 1
       });
 
@@ -55,6 +61,13 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.analyti
 
         query = "CREATE TABLE IF NOT EXISTS options (key varchar(255), value text, created_at datetime default current_timestamp);";
         $cordovaSQLite.execute(db, query, []);
+
+        query = "CREATE TABLE IF NOT EXISTS notifications (id integer primary key, title varchar(255), notify_at datetime default current_timestamp, created_at datetime default current_timestamp);";
+        $cordovaSQLite.execute(db, query, []);
+
+        // insert version app in options for detect update DB
+        // query = "INSERT INTO options (key, value) VALUES (?,?)";
+        // $cordovaSQLite.execute(db, query, ['version', '2.0']);
       });
     } // sqlite
 
@@ -73,6 +86,7 @@ angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.analyti
       cordova.plugins.notification.local.hasPermission(function (granted) {
         notificationHasPermission = granted;
       });
+      cordova.plugins.notification.local.cancelAll();// clear badge notification
     }
 
     if(navigator.globalization)
