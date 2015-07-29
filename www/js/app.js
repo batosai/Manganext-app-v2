@@ -10,7 +10,18 @@ String.prototype.format = function() {
 };
 
 // 'ionic.service.deploy',
-angular.module('starter', ['ionic', 'ionic.service.core', 'ionic.service.analytics', 'ngCordova', 'ngCachedResource', 'ngSanitize', 'angularMoment', 'pascalprecht.translate', 'starter.controllers', 'starter.splashscreen'])
+angular.module('starter', [
+  'ionic',
+  'ionic.service.core',
+  'ionic.service.analytics',
+  'ngCordova',
+  'ngCachedResource',
+  'ngSanitize',
+  'angularMoment',
+  'pascalprecht.translate',
+  'starter.controllers',
+  'starter.splashscreen'
+])
 
 .run(function($ionicPlatform, $ionicAnalytics, $cordovaGoogleAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config, amMoment) {
 

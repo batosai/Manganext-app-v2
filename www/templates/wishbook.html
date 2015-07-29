@@ -12,44 +12,32 @@
     </section>
 
     <div class="list card">
-      <ion-item class="item-body">
-        <p ng-bind-html="book.content_display"></p>
-      </ion-item>
-
       <ion-item class="tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" href="#">
+        <a class="tab-item" href="#" ng-click="comment()">
           <i class="icon ion-chatbubbles"></i>
         </a>
         <a class="tab-item" href="#" ng-click="wish()">
           <i class="icon" ng-class="{'ion-ios-heart': isWish, 'ion-ios-heart-outline': !isWish}"></i>
         </a>
-        <a class="tab-item" href="#" ng-click="addNotification()">
+        <!-- <a class="tab-item" href="#" ng-click="addNotification()">
           <i class="icon" ng-class="{'ion-android-notifications': isNotify, 'ion-android-notifications-none': !isNotify}"></i>
-        </a>
+        </a> -->
         <a class="tab-item" href="#" ng-click="share()" ion-track-tap="Start" ion-track-data="{ button: 'Share'}">
           <i class="icon ion-android-share"></i>
         </a>
       </ion-item>
+      <ion-item class="item-body" ng-if="book.content != ''">
+        <p ng-bind-html="book.content_display"></p>
+      </ion-item>
     </div>
 
-    <div class="list card comments">
+    <div class="list card comments" ng-if="comments.length">
       <ion-item class="item-divider item-dark">
-          <i class="icon ion-chatbubbles"></i> {{ 'Comments' | translate }}
+          <i class="icon ion-chatbubbles"></i> {{ 'Comments' | translate }} ({{ comments.length }})
       </ion-item>
-      <ion-item class="item-text-wrap">
-        This is a basic Card which contains an item that has wrapping text.
-      </ion-item>
-      <ion-item class="item-text-wrap">
-        This is a basic Card which contains an item that has wrapping text.
-      </ion-item>
-      <ion-item class="item-text-wrap">
-        This is a basic Card which contains an item that has wrapping text.
-      </ion-item>
-      <ion-item class="item-text-wrap">
-        This is a basic Card which contains an item that has wrapping text.
-      </ion-item>
-      <ion-item class="item-text-wrap">
-        This is a basic Card which contains an item that has wrapping text.
+      <ion-item class="item-text-wrap" ng-repeat="comment in comments">
+        <b>{{ comment.author }} :</b><br />
+        {{ comment.content }}
       </ion-item>
     </div>
     <br />
