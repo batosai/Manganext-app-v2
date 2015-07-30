@@ -2,7 +2,7 @@ var app = angular.module('config', []);
 
 var ENV = 'prod';
 
-var PROD = 'http://admin.manganext-app.com';
+var PROD = 'http://api.manganext-app.com';
 var DEV  = 'http://localhost/manganext-wp';
 
 var cache;
