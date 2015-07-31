@@ -1,5 +1,8 @@
 'use strict';
 
+// ionic emulate ios --target="iPhone-4s"
+// var validTargets = ['iPhone-4s', 'iPhone-5', 'iPhone-5s', 'iPhone-6-Plus', 'iPhone-6', 'iPad-2', 'iPad-Retina', 'iPad-Air', 'Resizable-iPhone', 'Resizable-iPad']
+
 String.prototype.format = function() {
     var formatted = this;
     for (var i = 0; i < arguments.length; i++) {
@@ -24,6 +27,12 @@ angular.module('starter', [
 ])
 
 .run(function($ionicPlatform, $ionicAnalytics, $cordovaGoogleAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config, amMoment) {
+
+  $rootScope.$on('$routeChangeStart', function(event, next, current) {
+      if (typeof(current) !== 'undefined'){
+          $templateCache.remove(current.templateUrl);
+      }
+  });
 
   $ionicPlatform.on('resume', function(){
     if(window.cordova && window.cordova.plugins.notification) {

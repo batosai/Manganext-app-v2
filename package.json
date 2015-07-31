@@ -32,16 +32,14 @@
     },
     "cordova-plugin-console",
     "cordova-plugin-device",
-    "de.appplant.cordova.plugin.local-notification",
     "cordova-plugin-globalization",
     "cordova-plugin-splashscreen",
     "cordova-plugin-admobpro",
-    {
-      "locator": "https://github.com/danwilson/google-analytics-plugin.git",
-      "id": "cordova-plugin-google-analytics"
-    }
+    "cordova-plugin-google-analytics",
+    "de.appplant.cordova.plugin.local-notification"
   ],
   "cordovaPlatforms": [
+    "android",
     "ios"
   ]
 }

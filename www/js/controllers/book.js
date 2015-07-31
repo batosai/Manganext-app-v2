@@ -19,10 +19,10 @@ angular.module('book.controllers', [])
     }
   });
 
-  $scope.isNotify = false;
-  if(notificationHasPermission) cordova.plugins.notification.local.isPresent($stateParams.bookId, function (present) {
-    $scope.isNotify = present;
-  });
+  // $scope.isNotify = false;
+  // if(notificationHasPermission) cordova.plugins.notification.local.isPresent($stateParams.bookId, function (present) {
+  //   $scope.isNotify = present;
+  // });
 
   var books = Cache.get('books');
   if(books && !$scope.book) {
@@ -57,10 +57,12 @@ angular.module('book.controllers', [])
   });
 
   var onprogress = function(e) {
-    var progress = "Progress: " + e.queueIndex + " " + e.queueSize;
-    console.log(progress);
+    // var progress = "Progress: " + e.queueIndex + " " + e.queueSize;
+    // console.log(progress);
   };
   if(typeof FileTransfer != 'undefined') cache.download(onprogress);
+
+  /////////////////////////////////////////////////
 
   $scope.share = function () {
     var subject = $filter('translate')("{0} fate {1}.");
@@ -77,6 +79,8 @@ angular.module('book.controllers', [])
       });
   };
 
+  /////////////////////////////////////////////////
+
   $scope.wish = function() {
     $ionicAnalytics.track('Start', {
       button: 'Wish',
@@ -87,17 +91,19 @@ angular.module('book.controllers', [])
     if($scope.isWish){
       query = "DELETE FROM wish WHERE id = ?";
       if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId]);
-      $scope.isWish = false;
+      // $scope.isWish = false;
     }
     else {
       query = "INSERT INTO wish (id, data, publication_at, created_at) VALUES (?,?,?,?)";
       if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId, JSON.stringify($scope.book), $scope.book.publication_at, moment().format()]);
-      $scope.isWish = true;
+      // $scope.isWish = true;
     }
+
+    $scope.addNotification();
   };
 
-  // var now = new Date().getTime();
-  // var _10SecondsFromNow = new Date(now + 10 * 1000);
+ // var now = new Date().getTime();
+ // var _10SecondsFromNow = new Date(now + 15 * 1000);
  //  $cordovaLocalNotification.schedule({
  //   id: 10,
  //   title: 'Title here',
@@ -108,18 +114,22 @@ angular.module('book.controllers', [])
  //   // ...
  //  });
 
+ /////////////////////////////////////////////////
 
   $scope.addNotification = function () {
     if(window.analytics) $cordovaGoogleAnalytics.trackEvent('button', 'click', 'Notification', $scope.book.title);
-    if($scope.isNotify) {
-      $scope.isNotify = false;
+    // if($scope.isNotify) {
+    if($scope.isWish) {
+      // $scope.isNotify = false;
+      $scope.isWish = false;
       if(notificationHasPermission) {
         $cordovaLocalNotification.cancel($stateParams.bookId);
         $cordovaSQLite.execute(db, "DELETE FROM notifications WHERE id=?", [$stateParams.bookId]);
       }
     }
     else {
-      $scope.isNotify = true;
+      // $scope.isNotify = true;
+      $scope.isWish = true;
       var date = moment($scope.book.publication_at).add(10, 'hours');
       if(notificationHasPermission){
         if(window.sqlitePlugin) {
@@ -130,7 +140,7 @@ angular.module('book.controllers', [])
              id: $stateParams.bookId,
              title: $scope.book.title + ' ' +  $filter('translate')('released'),
              at: date.toDate(),
-            //  at: _10SecondsFromNow,
+            //  at: new Date(new Date().getTime() + 15 * 1000),
              badge: res.rows.length
             });
           });
@@ -138,13 +148,12 @@ angular.module('book.controllers', [])
       }
     }
   };
-
+  /////////////////////////////////////////////////
   // List comments
-  $scope.comments = [];console.log($stateParams.bookId);
+  $scope.comments = [];
   var comment = Comments.get({
       id: $stateParams.bookId
   }, function() {
-    console.log(comment.comments);
     $scope.comments = comment.comments;
   });
 
