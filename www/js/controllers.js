@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('starter.controllers', [
   'book.controllers',
   'booklist.controllers',
@@ -10,6 +8,7 @@ angular.module('starter.controllers', [
 ])
 
 .controller('AppCtrl', function($scope, $ionicHistory, $cordovaSQLite, $location, $state, Cache) {
+  "use strict";
 
   $scope.$on('bg-menu', function(){
     var bg = Cache.get('menu');

@@ -1,8 +1,8 @@
-'use strict';
-
 angular.module('settings.controllers', [])
 
 .controller('SettingsCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $cordovaInAppBrowser, $cordovaSQLite) {
+  "use strict";
+
   var title = 'Settings';
   $scope.user = [];
 
@@ -14,7 +14,7 @@ angular.module('settings.controllers', [])
   $scope.openForm = function() {
     if(window.analytics) $cordovaGoogleAnalytics.trackEvent('button', 'click', 'Contact');
     $cordovaInAppBrowser.open('http://manganext-app.com', '_system');
-  }
+  };
 
   $scope.clearCache = function() {
     if(window.analytics) $cordovaGoogleAnalytics.trackEvent('button', 'click', 'Clear cache');
@@ -25,11 +25,11 @@ angular.module('settings.controllers', [])
 
     localStorage.clear();
     //$cachedResource.$clearCache({query: 'posts'});
-  }
+  };
 
   if(window.sqlitePlugin) $cordovaSQLite.execute(db, "SELECT value FROM options WHERE key=?", ['author']).then(function(res) {
     if(res.rows.length){
-      $scope.user.name = res.rows.item(0)['value'];
+      $scope.user.name = res.rows.item(0).value;
     }
   });
 

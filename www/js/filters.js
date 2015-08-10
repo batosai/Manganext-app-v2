@@ -1,8 +1,7 @@
-'use strict';
-
 angular.module('starter.filters', [])
 
 .filter('groupByDate', [function () {
+    "use strict";
     return function (books) {
         if (!angular.isUndefined(books)) {
             var tempBooks = {};
@@ -21,7 +20,9 @@ angular.module('starter.filters', [])
             // Retourne au format array pour afficher les élément comme ils sont présenté.
             // Sinon en object cela s'affiche par ordre alphabétique.
             // return tempBooks;
-            return Object.keys(tempBooks).map(function(k) { return tempBooks[k] });
+            return Object.keys(tempBooks).map(function(k) {
+              return tempBooks[k];
+            });
         } else {
             return books;
         }
@@ -29,6 +30,7 @@ angular.module('starter.filters', [])
 }])
 
 .filter('thumbnail', [function () {
+    "use strict";
     return function (media, type) {
         if (!angular.isUndefined(media)) {
             var img = _.find(media[0].sizes, function(img){ return img.name == type; });

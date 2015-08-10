@@ -1,9 +1,8 @@
-'use strict';
-
 // ionic emulate ios --target="iPhone-4s"
 // var validTargets = ['iPhone-4s', 'iPhone-5', 'iPhone-5s', 'iPhone-6-Plus', 'iPhone-6', 'iPad-2', 'iPad-Retina', 'iPad-Air', 'Resizable-iPhone', 'Resizable-iPad']
 
 String.prototype.format = function() {
+    "use strict";
     var formatted = this;
     for (var i = 0; i < arguments.length; i++) {
         var regexp = new RegExp('\\{'+i+'\\}', 'gi');
@@ -27,6 +26,7 @@ angular.module('starter', [
 ])
 
 .run(function($ionicPlatform, $ionicAnalytics, $cordovaGoogleAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config, amMoment) {
+  "use strict";
 
   $rootScope.$on('$routeChangeStart', function(event, next, current) {
       if (typeof(current) !== 'undefined'){
@@ -133,6 +133,7 @@ angular.module('starter', [
 })
 
 .config(function($stateProvider, $ionicConfigProvider, $urlRouterProvider, $ionicAppProvider, $translateProvider, Config) {
+  "use strict";
 
   $ionicAppProvider.identify({
     app_id: Config.appId,

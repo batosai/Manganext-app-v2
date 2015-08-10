@@ -1,11 +1,9 @@
-'use strict';
-
 angular.module('wishlist.controllers', [])
 
 .controller('WishlistCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $cordovaSQLite, $splashscreen) {
+  "use strict";
 
   $splashscreen.show();
-
   $scope.books = [];
 
   var title = 'Wish list';
@@ -18,7 +16,7 @@ angular.module('wishlist.controllers', [])
   if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, []).then(function(res) {
     if(res.rows.length){
       for (var i = 0; i < res.rows.length; i++) {
-        $scope.books.push( JSON.parse(res.rows.item(i)['data'] ));
+        $scope.books.push( JSON.parse(res.rows.item(i).data ));
       }
     }
     $splashscreen.hide();

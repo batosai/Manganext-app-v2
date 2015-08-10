@@ -1,8 +1,7 @@
-'use strict';
-
 angular.module('booklist.controllers', [])
 
 .controller('BooklistCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, Cache, $filter, $stateParams, $cordovaSplashscreen, $splashscreen, Book) {
+  "use strict";
 
   $splashscreen.show();
   if(navigator.splashscreen) $cordovaSplashscreen.hide();
@@ -31,7 +30,7 @@ angular.module('booklist.controllers', [])
   });
   if(window.analytics) $cordovaGoogleAnalytics.trackView(analyticsTitle);
 
-  if(!angular.isUndefined($stateParams.search) && $stateParams.search != '') {
+  if(!angular.isUndefined($stateParams.search) && $stateParams.search !== '') {
     options.s = $stateParams.search;
     $scope.title  = title + ' (' + options.s + ')';
 

@@ -1,8 +1,7 @@
-'use strict';
-
 angular.module('book.controllers', [])
 
 .controller('BookCtrl', function($scope, $ionicAnalytics, $cordovaGoogleAnalytics, $stateParams, $cordovaLocalNotification, $cordovaSocialSharing, $cordovaSQLite, $filter, Cache, $splashscreen, $ionicModal, Book, Comments, Comment) {
+  "use strict";
 
   $splashscreen.show();
 
@@ -21,7 +20,7 @@ angular.module('book.controllers', [])
   if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId]).then(function(res) {
     if(res.rows.length){
       $scope.isWish = true;
-      $scope.book = JSON.parse(res.rows.item(0)['data']);
+      $scope.book = JSON.parse(res.rows.item(0).data);
       $scope.toggleWish();
 
       Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
@@ -182,7 +181,7 @@ angular.module('book.controllers', [])
     var query = "SELECT value FROM options WHERE key=?";
     if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, ['author']).then(function(res) {
       if(res.rows.length){
-        $scope.commentData.author = res.rows.item(0)['value'];
+        $scope.commentData.author = res.rows.item(0).value;
       }
     });
   });
@@ -216,4 +215,4 @@ angular.module('book.controllers', [])
 
     $scope.closeComment();
   };
-})
+});

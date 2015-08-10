@@ -1,9 +1,7 @@
-'use strict';
-
 angular.module('starter.splashscreen', [])
 
 .factory('$splashscreen', function ($rootScope) {
-
+  "use strict";
   var visible = false;
 
   return {
@@ -23,6 +21,7 @@ angular.module('starter.splashscreen', [])
 })
 
 .directive('splashscreen', function(){
+    "use strict";
     return {
         restrict: 'E',
         templateUrl: 'templates/directives/splashscreen.html',

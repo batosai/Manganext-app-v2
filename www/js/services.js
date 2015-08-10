@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('starter.services', ['config'])
 
 .service('Book', ["$cachedResource", "Config", function($resource, Config) {
