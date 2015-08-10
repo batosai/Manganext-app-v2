@@ -59,6 +59,10 @@ angular.module('starter', [
       AdMob.createBanner(defaultOptions);
     }
 
+    if (cordova.platformId == 'android') {
+      StatusBar.backgroundColorByHexString("#ef473a");
+    }
+
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     } // keyboard
@@ -69,7 +73,8 @@ angular.module('starter', [
 
     if(window.sqlitePlugin) {
       db = window.sqlitePlugin.openDatabase({
-        name: "NoCloud/manganext.db",
+        // name: "NoCloud/manganext.db",
+        name: "manganext.db",
         // location: 2,
         // androidDatabaseImplementation: 2,
         createFromLocation: 1

@@ -16,7 +16,7 @@
         <a class="tab-item" href="#" ng-click="comment()">
           <i class="icon ion-chatbubbles"></i>
         </a>
-        <a class="tab-item" href="#" ng-click="wish()">
+        <a class="tab-item" href="#" ng-show="showWish" ng-click="wish()">
           <i class="icon" ng-class="{'ion-ios-heart': isWish, 'ion-ios-heart-outline': !isWish}"></i>
         </a>
         <!-- <a class="tab-item" href="#" ng-click="addNotification()">
