@@ -59,7 +59,7 @@ angular.module('starter', [
       AdMob.createBanner(defaultOptions);
     }
 
-    if (cordova.platformId == 'android') {
+    if (window.cordova && cordova.platformId == 'android') {
       StatusBar.backgroundColorByHexString("#ef473a");
     }
 
