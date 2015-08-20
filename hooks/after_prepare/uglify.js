@@ -23,6 +23,7 @@ var recursiveFolderSearch = hookConfig.recursiveFolderSearch; // set this to fal
 var foldersToProcess      = hookConfig.foldersToProcess; // add other www folders in here if needed (ex. js/controllers)
 var cssMinifier           = new CleanCSS(hookConfig.cleanCssOptions);
 
+return;
 // Exit
 if (!isRelease) {
     return;
@@ -38,22 +39,22 @@ run();
 function run() {
     platforms.forEach(function(platform) {
         var wwwPath;
-        
+
         switch (platform) {
             case 'android':
                 wwwPath = path.join(platformPath, platform, 'assets', 'www');
                 break;
-                
-            case 'ios': 
+
+            case 'ios':
             case 'browser':
                 wwwPath = path.join(platformPath, platform, 'www');
                 break;
-                
+
             default:
                 console.log('this hook only supports android, ios, and browser currently');
                 return;
         }
- 
+
         processFolders(wwwPath);
     });
 }
@@ -78,23 +79,23 @@ function processFiles(dir) {
     fs.readdir(dir, function (err, list) {
         if (err) {
             console.log('processFiles err: ' + err);
-            
+
             return;
         }
-        
+
         list.forEach(function(file) {
             file = path.join(dir, file);
-        
+
             fs.stat(file, function(err, stat) {
                 if (stat.isFile()) {
                     compress(file);
-                    
-                    return; 
+
+                    return;
                 }
-                
+
                 if (recursiveFolderSearch && stat.isDirectory()) {
                     processFiles(file);
-                    
+
                     return;
                 }
             });
@@ -112,24 +113,24 @@ function compress(file) {
         res,
         source,
         result;
-    
+
     switch (ext) {
         case '.js':
             console.log('uglifying js file ' + file);
-            
+
             res = ngAnnotate(String(fs.readFileSync(file)), { add: true });
             result = UglifyJS.minify(res.src, hookConfig.uglifyJsOptions);
             fs.writeFileSync(file, result.code, 'utf8'); // overwrite the original unminified file
             break;
-            
+
         case '.css':
             console.log('minifying css file ' + file);
-            
+
             source = fs.readFileSync(file, 'utf8');
             result = cssMinifier.minify(source);
             fs.writeFileSync(file, result, 'utf8'); // overwrite the original unminified file
             break;
-            
+
         default:
             console.log('encountered a ' + ext + ' file, not compressing it');
             break;
