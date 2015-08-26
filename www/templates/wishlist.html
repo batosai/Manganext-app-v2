@@ -7,7 +7,10 @@
         <header style="background:url({{book.media | thumbnail:'thumbnail-450x625'}});">
         </header>
         <section class="header">
-          <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" height="100" >
+          <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" height="100" ng-if="book.age_number != '16+' && book.age_number != '18+'" />
+          <img ng-src="img/16.jpg" height="100" ng-if="book.age_number == '16+'" />
+          <img ng-src="img/18.jpg" height="100" ng-if="book.age_number == '18+'" />
+
           <h2>{{book.title}} <span ng-if="book.volume"><br /></span> <span class="assertive">{{book.volume}}</span></h2>
           <p>{{book.publication_at | amDateFormat:'dddd DD MMMM YYYY'}}<br />{{book.price}}</p>
         </section>

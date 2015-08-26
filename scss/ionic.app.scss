@@ -49,6 +49,9 @@ $ionicons-font-path: "../lib/ionic/release/fonts" !default;
     opacity: 0.35;
     -webkit-filter: blur(9px);
   }
+  ion-item h3 {
+    margin-bottom:0;
+  }
   section.header {
     position: absolute;
     top: 0;

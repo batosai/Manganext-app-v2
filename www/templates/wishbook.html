@@ -5,7 +5,10 @@
     <header style="background:url({{book.media | thumbnail:'thumbnail-450x625'}});">
     </header>
     <section class="header">
-      <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" height="150" >
+      <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" height="150" ng-if="book.age_number != '16+' && book.age_number != '18+'" />
+      <img ng-src="img/16.jpg" height="150" ng-if="book.age_number == '16+'" />
+      <img ng-src="img/18.jpg" height="150" ng-if="book.age_number == '18+'" />
+
       <h2>{{book.title}} <span ng-if="book.volume"><br /></span> <span class="assertive">{{book.volume}}</span></h2>
       <p>{{book.publication_at | amDateFormat:'dddd DD MMMM YYYY'}}<br />{{book.price}}</p>
       <span class="assertive">{{book.editor}}</span>
@@ -27,6 +30,7 @@
         </a>
       </ion-item>
       <ion-item class="item-body" ng-if="book.content != ''">
+        <p ng-bind-html="book.outputs_number"></p>
         <p ng-bind-html="book.content_display"></p>
       </ion-item>
     </div>

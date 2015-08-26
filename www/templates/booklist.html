@@ -19,7 +19,9 @@
               <div class="card">
                 <ion-item class="item-image" ng-href="#/app/book/{{book.id}}">
                   <!-- <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" ion-utils-cache-base64> -->
-                  <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" >
+                  <img ng-src="{{book.media | thumbnail:'thumbnail-215x300'}}" ng-if="book.age_number != '16+' && book.age_number != '18+'" />
+                  <img ng-src="img/16.jpg" ng-if="book.age_number == '16+'" />
+                  <img ng-src="img/18.jpg" ng-if="book.age_number == '18+'" />
                 </ion-item>
 
                 <ion-item class="assertive" ng-href="#/app/book/{{book.id}}">

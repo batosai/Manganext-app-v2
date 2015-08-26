@@ -9300,6 +9300,9 @@ a.button {
   opacity: 0.35;
   -webkit-filter: blur(9px); }
 
+.show ion-item h3, .wishlist ion-item h3 {
+  margin-bottom: 0; }
+
 .show section.header, .wishlist section.header {
   position: absolute;
   top: 0;
