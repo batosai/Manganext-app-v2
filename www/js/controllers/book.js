@@ -23,8 +23,10 @@ angular.module('book.controllers', [])
       $scope.book = JSON.parse(res.rows.item(0).data);
       $scope.toggleWish();
 
-      Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
-      $scope.$emit('bg-menu');
+      if($scope.book.age_number != '16+' && $scope.book.age_number != '18+'){
+        Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
+        $scope.$emit('bg-menu');
+      }
       $splashscreen.hide();
     }
   });
@@ -42,8 +44,10 @@ angular.module('book.controllers', [])
       $scope.book = book;
       $scope.toggleWish();
 
-      Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
-      $scope.$emit('bg-menu');
+      if(book.age_number != '16+' && book.age_number != '18+'){
+        Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
+        $scope.$emit('bg-menu');
+      }
       $splashscreen.hide();
     }
   }
@@ -59,8 +63,10 @@ angular.module('book.controllers', [])
     $scope.book = book;
     $scope.toggleWish();
 
-    Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
-    $scope.$emit('bg-menu');
+    if(book.age_number != '16+' && book.age_number != '18+'){
+      Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
+      $scope.$emit('bg-menu');
+    }
 
     var query = "UPDATE wish SET data = ?, publication_at = ? WHERE id = ?";
     if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [JSON.stringify($scope.book), $scope.book.publication_at, $stateParams.bookId]);
