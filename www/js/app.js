@@ -45,19 +45,19 @@ angular.module('starter', [
     $ionicAnalytics.register();
     if(window.analytics) $cordovaGoogleAnalytics.startTrackerWithId(Config.analyticsId);
 
-    // if(typeof AdMob != 'undefined') {
-    //   var defaultOptions = {
-    //     adId: Config.adId,
-    //     position: AdMob.AD_POSITION.BOTTOM_CENTER,
-    //     bgColor: '#ffffff',
-    //     // isTesting: true,
-    //     autoShow: true
-    //   };
-    //
-    //   AdMob.prepareInterstitial(defaultOptions);
-    //   defaultOptions.adId = Config.adIdBottom;
-    //   AdMob.createBanner(defaultOptions);
-    // }
+    if(typeof AdMob != 'undefined') {
+      var defaultOptions = {
+        adId: Config.adId,
+        position: AdMob.AD_POSITION.BOTTOM_CENTER,
+        bgColor: '#ffffff',
+        // isTesting: true,
+        autoShow: true
+      };
+
+      AdMob.prepareInterstitial(defaultOptions);
+      defaultOptions.adId = Config.adIdBottom;
+      AdMob.createBanner(defaultOptions);
+    }
 
     if (window.cordova && cordova.platformId == 'android') {
       StatusBar.backgroundColorByHexString("#ef473a");

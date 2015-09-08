@@ -40,21 +40,6 @@ angular.module('booklist.controllers', [])
     if(window.analytics) $cordovaGoogleAnalytics.trackView('Search: ' + $scope.title);
   }
 
-  $scope.onRefresh = function() {
-    $scope.books = [];
-
-    options.per_page = $scope.books.length;
-    options.offset   = 0;
-
-    var books = Book.query(options, function(){
-      $scope.books = books.posts;
-      $scope.groups = $filter('groupByDate')($scope.books);
-      Cache.put('books', $scope.books);
-
-      $scope.$broadcast('scroll.refreshComplete');
-    });
-  };
-
   $scope.onInfinite = function() {
     options.per_page = 10;
     options.offset   = $scope.books.length;

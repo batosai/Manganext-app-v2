@@ -11,9 +11,12 @@ var notificationHasPermission = false;
 
 app.constant('Config', {
     url: ENV == 'dev' ? DEV : PROD,
+    adId: 'ca-app-pub-7709867768399573/6607258151',
+    adIdBottom: 'ca-app-pub-7709867768399573/2885285351',
     appId: '998907e6',
     apiKey: '3b459640b965dd25d93d0007415d83aaaea2b4749cdc29ac',
+    apiVersion: 'v2.1',
     defaultLanguage: 'fr',
     analyticsId:'UA-2577921-11',
-    token: 'ea5af636cd2c0c07242ee43c07cbefb3'
+    token: 'ea5af636cd2c0c07242ee43c07cbefb3',
 });

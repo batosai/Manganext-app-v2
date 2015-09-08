@@ -42,7 +42,8 @@
     },
     "nl.x-services.plugins.socialsharing",
     "cordova-plugin-google-analytics@0.7.1",
-    "cordova-plugin-whitelist"
+    "cordova-plugin-whitelist",
+    "com.google.cordova.admob"
   ],
   "cordovaPlatforms": [
     "ios",
