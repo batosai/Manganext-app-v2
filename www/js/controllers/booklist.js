@@ -40,13 +40,22 @@ angular.module('booklist.controllers', [])
     if(window.analytics) $cordovaGoogleAnalytics.trackView('Search: ' + $scope.title);
   }
 
+  var infinityActif = true;
   $scope.onInfinite = function() {
     options.per_page = 10;
     options.offset   = $scope.books.length;
 
+    if(!infinityActif){
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+      return;
+    }
+
     var books = Book.query(options, function(){
       setTimeout(function(){
         $scope.books = _.union($scope.books, books.posts);
+
+        if(!books.posts.length) infinityActif = false;
+
         // angular.merge(dst, src); ????
         // filter direct in controller because in ng-repeat repeat n filter. Long load
         $scope.groups = $filter('groupByDate')($scope.books);
