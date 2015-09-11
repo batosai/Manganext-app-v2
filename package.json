@@ -46,7 +46,7 @@
     "com.google.cordova.admob"
   ],
   "cordovaPlatforms": [
-    "ios",
-    "android"
+    "android",
+    "ios"
   ]
 }

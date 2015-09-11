@@ -108,9 +108,12 @@ angular.module('starter', [
     } // cache
 
     if(window.cordova && window.cordova.plugins.notification) {
-      cordova.plugins.notification.local.hasPermission(function (granted) {
-        notificationHasPermission = granted;
+      cordova.plugins.notification.local.schedule({}, function(){
+        cordova.plugins.notification.local.hasPermission(function (granted) {
+          notificationHasPermission = granted;
+        });
       });
+      
       cordova.plugins.notification.local.cancelAll();// clear badge notification
     }
 

@@ -149,6 +149,7 @@ angular.module('book.controllers', [])
       // $scope.isNotify = true;
       $scope.isWish = true;
       var date = moment($scope.book.publication_at).add(10, 'hours');
+
       if(notificationHasPermission){
         if(window.sqlitePlugin) {
           $cordovaSQLite.execute(db, "INSERT INTO notifications (id, title, notify_at) VALUES (?,?,?)", [$stateParams.bookId, $scope.book.title + ' ' +  $filter('translate')('released'), date.format()]);
