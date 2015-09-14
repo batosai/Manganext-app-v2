@@ -51,6 +51,13 @@ angular.module('booklist.controllers', [])
     }
 
     var books = Book.query(options, function(){
+      if(!books.posts.length) {
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        infinityActif = false;
+        $splashscreen.hide();
+        return;
+      }
+
       setTimeout(function(){
         $scope.books = _.union($scope.books, books.posts);
 
@@ -68,9 +75,9 @@ angular.module('booklist.controllers', [])
         Cache.put('menu', $filter('thumbnail')($scope.books[0].media, 'thumbnail-450x625'));
         $scope.$emit('bg-menu');
 
-        setTimeout(function(){
+        // setTimeout(function(){
           $splashscreen.hide();
-        },200);
+        // },200);
       },200);
     });
   };

@@ -3,6 +3,7 @@
   <ion-content overflow-scroll="true">
 
     <ion-list>
+        <div class="row" ng-show="!groups.length">{{ 'No results' | translate }}</div>
         <!-- <div ng-repeat="group in filtered = (books | groupByDate)"> -->
         <div ng-repeat="group in groups">
           <ion-item class="item-divider item-dark">

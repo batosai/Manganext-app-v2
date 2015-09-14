@@ -171,7 +171,7 @@ angular.module('book.controllers', [])
   // List comments
   $scope.comments = [];
   var comment = Comments.get({
-      id: $stateParams.bookId
+      id: ""+$stateParams.bookId
   }, function() {
     $scope.comments = comment.comments;
   });
