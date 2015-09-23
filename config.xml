@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.chaufourier.Manga-News" version="2.0" android-versionCode="20" ios-CFBundleVersion="2.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-<!-- <widget id="com.chaufourier.MangaNewsAndroid" version="2.0" android-versionCode="20" ios-CFBundleVersion="2.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0"> -->
+<widget id="com.chaufourier.Manga-News" version="2.1.1" android-versionCode="211" ios-CFBundleVersion="2.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<!-- <widget id="com.chaufourier.MangaNewsAndroid" version="2.1" android-versionCode="210" ios-CFBundleVersion="2.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0"> -->
   <name>Manga Next</name>
   <description>
         List out manga book

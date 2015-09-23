@@ -24,26 +24,13 @@
     "org.apache.cordova.device",
     "com.ionic.keyboard",
     "cordova-plugin-file-transfer",
-    {
-      "locator": "https://github.com/litehelpers/Cordova-sqlite-storage.git",
-      "id": "io.litehelpers.cordova.sqlite"
-    },
-    {
-      "locator": "https://github.com/driftyco/ionic-plugins-deploy",
-      "id": "com.ionic.deploy"
-    },
-    "cordova-plugin-console",
     "cordova-plugin-device",
     "cordova-plugin-globalization",
     "cordova-plugin-splashscreen",
-    {
-      "locator": "https://github.com/katzer/cordova-plugin-local-notifications",
-      "id": "de.appplant.cordova.plugin.local-notification"
-    },
     "nl.x-services.plugins.socialsharing",
     "cordova-plugin-google-analytics@0.7.1",
     "cordova-plugin-whitelist",
-    "com.google.cordova.admob"
+    "io.litehelpers.cordova.sqlite"
   ],
   "cordovaPlatforms": [
     "android",

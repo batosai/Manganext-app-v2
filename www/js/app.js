@@ -22,7 +22,8 @@ angular.module('starter', [
   'angularMoment',
   'pascalprecht.translate',
   'starter.controllers',
-  'starter.splashscreen'
+  'starter.splashscreen',
+  'ngIOS9UIWebViewPatch'
 ])
 
 .run(function($ionicPlatform, $ionicAnalytics, $cordovaGoogleAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config, amMoment) {
@@ -108,12 +109,21 @@ angular.module('starter', [
     } // cache
 
     if(window.cordova && window.cordova.plugins.notification) {
-      cordova.plugins.notification.local.schedule({}, function(){
+
+      if (window.device.platform == 'iOS') {
+        cordova.plugins.notification.local.schedule({}, function(){
+          cordova.plugins.notification.local.hasPermission(function (granted) {
+            notificationHasPermission = granted;
+          });
+        });
+      }
+      else {
         cordova.plugins.notification.local.hasPermission(function (granted) {
           notificationHasPermission = granted;
         });
-      });
-      
+      }
+
+
       cordova.plugins.notification.local.cancelAll();// clear badge notification
     }
 

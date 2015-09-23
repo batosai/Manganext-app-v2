@@ -12,7 +12,7 @@ angular.module('wishlist.controllers', [])
   });
   if(window.analytics) $cordovaGoogleAnalytics.trackView(title);
 
-  var query = "SELECT data FROM wish WHERE 1 ORDER BY publication_at DESC";
+  var query = "SELECT data FROM wish WHERE 1 ORDER BY publication_at ASC";
   if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, []).then(function(res) {
     if(res.rows.length){
       for (var i = 0; i < res.rows.length; i++) {
