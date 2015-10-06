@@ -5,25 +5,14 @@ angular.module('book.controllers', [])
 
   $splashscreen.show();
 
-  $scope.toggleWish = function() {
-    var publication_at = moment($scope.book.publication_at);
-    if(!$scope.isWish && publication_at <= moment()) {
-      $scope.showWish = false;
-    }
-    else {
-      $scope.showWish = true;
-    }
-  };
-
   $scope.isWish   = false;
   var query = "SELECT data FROM wish WHERE id = ?";
   if(window.sqlitePlugin) $cordovaSQLite.execute(db, query, [$stateParams.bookId]).then(function(res) {
     if(res.rows.length){
       $scope.isWish = true;
       $scope.book = JSON.parse(res.rows.item(0).data);
-      $scope.toggleWish();
 
-      if($scope.book.age_number != '16+' && $scope.book.age_number != '18+'){
+      if($scope.book.age_number != '18+'){
         Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
         $scope.$emit('bg-menu');
       }
@@ -42,9 +31,8 @@ angular.module('book.controllers', [])
 
     if(book) {
       $scope.book = book;
-      $scope.toggleWish();
 
-      if(book.age_number != '16+' && book.age_number != '18+'){
+      if(book.age_number != '18+'){
         Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
         $scope.$emit('bg-menu');
       }
@@ -61,9 +49,8 @@ angular.module('book.controllers', [])
     if(window.analytics) $cordovaGoogleAnalytics.trackView(book.title);
 
     $scope.book = book;
-    $scope.toggleWish();
 
-    if(book.age_number != '16+' && book.age_number != '18+'){
+    if(book.age_number != '18+'){
       Cache.put('menu', $filter('thumbnail')($scope.book.media, 'thumbnail-450x625'));
       $scope.$emit('bg-menu');
     }
@@ -117,7 +104,13 @@ angular.module('book.controllers', [])
       // $scope.isWish = true;
     }
 
-    $scope.addNotification();
+    var publication_at = moment($scope.book.publication_at);
+    if(publication_at > moment()) {
+      $scope.addNotification();
+    }
+    else {
+      $scope.isWish = true;
+    }
   };
 
  // var now = new Date().getTime();
