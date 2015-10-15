@@ -1,0 +1,13 @@
+{
+  "name": "cordova-plugin-resources",
+  "version": "0.1",
+  "description": "Cordova resources Plugin",
+  "cordova": {
+    "id": "cordova-plugin-resources",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "author": "Chaufourier Jeremy <jeremy.chaufourier@gmail.com>",
+  "license": "Apache 2.0"
+}

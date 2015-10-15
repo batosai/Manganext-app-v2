@@ -30,7 +30,13 @@
     "nl.x-services.plugins.socialsharing",
     "cordova-plugin-google-analytics@0.7.1",
     "cordova-plugin-whitelist",
-    "io.litehelpers.cordova.sqlite"
+    "io.litehelpers.cordova.sqlite",
+    "cordova-plugin-console",
+    "cordova-plugin-3dtouch",
+    {
+      "id": "cordova-plugin-resources",
+      "locator": "./cordova-plugin-resources"
+    }
   ],
   "cordovaPlatforms": [
     "android",

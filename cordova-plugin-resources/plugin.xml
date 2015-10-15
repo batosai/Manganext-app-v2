@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-resources"
+    version="0.1">
+
+    <name>Resources</name>
+
+    <description>Cordova/PhoneGap resources Plugin</description>
+
+    <license>MIT</license>
+
+    <!-- ios -->
+    <platform name="ios">
+        <resource-file src="src/HeartTemplate.png" />
+    </platform>
+
+</plugin>

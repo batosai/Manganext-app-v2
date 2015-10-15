@@ -26,7 +26,7 @@ angular.module('starter', [
   'ngIOS9UIWebViewPatch'
 ])
 
-.run(function($ionicPlatform, $ionicAnalytics, $cordovaGoogleAnalytics, $location, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $q, Config, amMoment) {
+.run(function($ionicPlatform, $ionicAnalytics, $cordovaGoogleAnalytics, $location, $state, $ionicHistory, $rootScope, $cordovaStatusbar, $cordovaSQLite, $cordovaGlobalization, $translate, $filter, $q, Config, amMoment) {
   "use strict";
 
   $rootScope.$on('$routeChangeStart', function(event, next, current) {
@@ -134,6 +134,38 @@ angular.module('starter', [
 
         amMoment.changeLocale(result.value.split("-")[0]);
 
+        if(typeof ThreeDeeTouch != 'undefined')
+        {
+          ThreeDeeTouch.configureQuickActions([
+            {
+              type: 'last_releases',
+              title: $filter('translate')('Latest releases')
+            },
+            {
+              type: 'releases',
+              title: $filter('translate')('Releases')
+            },
+            {
+              type: 'wish_list',
+              title: $filter('translate')('Wish list'),
+              iconTemplate: 'HeartTemplate' // from Assets catalog
+            }
+          ]);
+
+          ThreeDeeTouch.onHomeIconPressed = function (payload) {
+            $ionicHistory.nextViewOptions({
+                historyRoot: true
+            });
+            if (payload.type == 'wish_list') {
+              $state.go('app.wishlist');
+            } else if (payload.type == 'releases') {
+              $state.go('app.booklist', {type: 'next'});
+            } else {
+              $state.go('app.booklist', {type: 'now'});
+            }
+          };
+        }
+
         $location.path('/app/booklist/now/');
         $rootScope.$apply();
       });
@@ -147,6 +179,10 @@ angular.module('starter', [
 
 .config(function($stateProvider, $ionicConfigProvider, $urlRouterProvider, $ionicAppProvider, $translateProvider, Config) {
   "use strict";
+
+  if(typeof ThreeDeeTouch != 'undefined') {
+    ThreeDeeTouch.disableLinkPreview();
+  }
 
   $ionicAppProvider.identify({
     app_id: Config.appId,
