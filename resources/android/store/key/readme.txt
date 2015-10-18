@@ -25,4 +25,9 @@ Sp?cifiez le mot de passe de la cl? pour <manganext>
 cordova build --release android
 keytool -genkey -v -keystore manganext.keystore -alias manganext -keyalg RSA -keysize 2048 -validity 10000
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore manganext.keystore android-release-unsigned.apk manganext
+ou
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore manganext.keystore android-armv7-release-unsigned.apk manganext
+
 ~/Library/Android/sdk/build-tools/23.0.0_rc3/zipalign -v 4 android-release-unsigned.apk manganext.apk
+ou
+~/Library/Android/sdk/build-tools/23.0.0_rc3/zipalign -v 4 android-armv7-release-unsigned.apk manganext.apk

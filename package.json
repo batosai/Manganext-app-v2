@@ -36,7 +36,8 @@
     {
       "id": "cordova-plugin-resources",
       "locator": "./cordova-plugin-resources"
-    }
+    },
+    "cordova-plugin-crosswalk-webview"
   ],
   "cordovaPlatforms": [
     "android",

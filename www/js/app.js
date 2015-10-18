@@ -136,34 +136,39 @@ angular.module('starter', [
 
         if(typeof ThreeDeeTouch != 'undefined')
         {
-          ThreeDeeTouch.configureQuickActions([
+          ThreeDeeTouch.isAvailable(function (avail) {
+            if(avail)
             {
-              type: 'last_releases',
-              title: $filter('translate')('Latest releases')
-            },
-            {
-              type: 'releases',
-              title: $filter('translate')('Releases')
-            },
-            {
-              type: 'wish_list',
-              title: $filter('translate')('Wish list'),
-              iconTemplate: 'HeartTemplate' // from Assets catalog
-            }
-          ]);
+              ThreeDeeTouch.configureQuickActions([
+                {
+                  type: 'last_releases',
+                  title: $filter('translate')('Latest releases')
+                },
+                {
+                  type: 'releases',
+                  title: $filter('translate')('Releases')
+                },
+                {
+                  type: 'wish_list',
+                  title: $filter('translate')('Wish list'),
+                  iconTemplate: 'HeartTemplate' // from Assets catalog
+                }
+              ]);
 
-          ThreeDeeTouch.onHomeIconPressed = function (payload) {
-            $ionicHistory.nextViewOptions({
-                historyRoot: true
-            });
-            if (payload.type == 'wish_list') {
-              $state.go('app.wishlist');
-            } else if (payload.type == 'releases') {
-              $state.go('app.booklist', {type: 'next'});
-            } else {
-              $state.go('app.booklist', {type: 'now'});
+              ThreeDeeTouch.onHomeIconPressed = function (payload) {
+                $ionicHistory.nextViewOptions({
+                    historyRoot: true
+                });
+                if (payload.type == 'wish_list') {
+                  $state.go('app.wishlist');
+                } else if (payload.type == 'releases') {
+                  $state.go('app.booklist', {type: 'next'});
+                } else {
+                  $state.go('app.booklist', {type: 'now'});
+                }
+              };
             }
-          };
+          });
         }
 
         $location.path('/app/booklist/now/');
